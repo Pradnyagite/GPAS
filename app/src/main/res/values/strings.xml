@@ -1,3 +1,47 @@
 <resources>
-    <string name="app_name">GPAS</string>
+
+    <string name="app_name">Precisto</string>
+    <string name="hello">Hello!</string>
+    <string name="hello_honey_bunny">hello honey bunny</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <string name="send_e_mail">Send E-mail</string>
+
+    <string name="username">Username</string>
+    <string name="e_mail">E-mail</string>
+    <string name="dob">DOB</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="male">Male</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="female">Female</string>
+    <string name="personal_details">Personal Details</string>
+
+    <string name="password">Password</string>
+
+    <string name="forgot_password">Forgot password?</string>
+    <string name="todo">TODO</string>
+    <string name="industry">Industry</string>
+    <string name="business_name">Business Name</string>
+    <string name="new_business">New Business</string>
+    <string name="existing_business">Existing Business</string>
+    <string name="business_details">Business Details</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login">Login</string>
+    <string name="existing_user">Existing user?</string>
+    <string name="new_user">New user?</string>
+    <string name="skip">Skip</string>
+
+    <string name="textview1">TextView</string>
+    <string name="textview2">TextView</string>
+    <string name="abhinav_patil">Abhinav Patil</string>
+    <string name="umair_umair">Umair Umair</string>
+    <string name="username1">Username</string>
+    <string name="about_us">\\about Us</string>
+    <string name="umair_qureshi">Umair Qureshi</string>
+    <string name="dfffffffffffffffffffffffffffddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd">dfffffffffffffffffffffffffffddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</string>
+    <string name="title_activity_contact_us">ContactUs</string>
+
+
 </resources>
