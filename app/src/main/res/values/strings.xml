@@ -39,6 +39,8 @@
 
     <string name="title_activity_contact_us">ContactUs</string>
     <string name="e_mail">E-mail</string>
+    <string name="title_activity_user_maps">Map</string>
+    <string name="title_activity_admin_map">Map</string>
 
 
 </resources>
