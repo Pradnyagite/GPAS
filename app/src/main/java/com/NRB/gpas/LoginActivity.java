@@ -38,7 +38,19 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        if(mAuth.getCurrentUser()!= null) {
+            if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("hgFkE0JFEsbiAF8xxIlsRaBrqr63")) {
 
+                Intent loginIntent = new Intent(LoginActivity.this, UserHome.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginIntent);
+            } else {
+
+                Intent loginIntent = new Intent(LoginActivity.this, AdminHome.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginIntent);
+            }
+        }
 
     }
 
