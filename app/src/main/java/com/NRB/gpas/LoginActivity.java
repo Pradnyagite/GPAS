@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.login_et_un);
         password = (EditText) findViewById(R.id.login_et_pass);
         login = (Button) findViewById(R.id.btn_login_login);
+        mProLogin = new ProgressDialog(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -43,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
         //Intent intent = new Intent(this, MainActivity.class);
-
+        mProLogin.setMessage("Logging in Please Wait...");
+        mProLogin.show();
 
         String user = username.getText().toString();
         String pass = password.getText().toString();
