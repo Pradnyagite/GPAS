@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -87,12 +88,13 @@ public class UserMapsActivity extends FragmentActivity implements OnMapReadyCall
         mMap.animateCamera(CameraUpdateFactory.zoomTo(19));
         marker= mMap.addMarker(new MarkerOptions().position(latLng).title("You are here"));
 
-//        String UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String userID="sdjfhsdhgsuyegfsdjfsjssy";
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ActiveUsers");
+
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        String userID="sdjfhsdhgsuyegfsdjfsjssy";
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ActiveUsers").child(userID);
 
         GeoFire geoFire = new GeoFire(databaseReference);
-        geoFire.setLocation(userID,new GeoLocation(location.getLatitude(),location.getLongitude()));
+        geoFire.setLocation("Person",new GeoLocation(location.getLatitude(),location.getLongitude()));
     }
 
 
