@@ -2,6 +2,7 @@ package com.NRB.gpas;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,25 +48,26 @@ public class LoginActivity extends AppCompatActivity {
         String user = username.getText().toString();
         String pass = password.getText().toString();
 
+        if (checkInternetConnection()) {
 
-
-        if (TextUtils.isEmpty(user)) {
-            Toast.makeText(getApplicationContext(), "Enter Email", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-
-            if (!user.matches(emailPattern)) {
-                Toast.makeText(getApplicationContext(), "Please provide your valid Email address", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(user)) {
+                Toast.makeText(getApplicationContext(), "Enter Email", Toast.LENGTH_SHORT).show();
                 return;
             } else {
 
-                if (TextUtils.isEmpty(pass)) {
-                    Toast.makeText(getApplicationContext(), "Enter Valid Password", Toast.LENGTH_SHORT).show();
+                if (!user.matches(emailPattern)) {
+                    Toast.makeText(getApplicationContext(), "Please provide your valid Email address", Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+
+                    if (TextUtils.isEmpty(pass)) {
+                        Toast.makeText(getApplicationContext(), "Enter Valid Password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             }
+            signin(user, pass);
         }
-        signin(user, pass);
 
 //        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
 //        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -107,6 +109,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public boolean checkInternetConnection() {
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec = (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED) {
+            return true;
+        } else if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED) {
+            return false;
+        }
+        return false;
     }
 
 }
