@@ -68,7 +68,15 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             }
+            mProLogin.setTitle("Logging In");
+            mProLogin.setMessage("Please wait while we check your credentials");
+            mProLogin.setCanceledOnTouchOutside(false);
+            mProLogin.show();
             signin(user, pass);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Check your internet connection", Toast.LENGTH_SHORT).show();
         }
 
 //        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
