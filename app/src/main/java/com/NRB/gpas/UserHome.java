@@ -49,7 +49,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         navigationView.getMenu().findItem(R.id.drawer_user_home).setChecked(true);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_user_layout, new FragmentUserHome()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_user_layout, new UserMapsActivity()).commit();
 
     }
 
@@ -60,7 +60,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         switch (item.getItemId()) {
             case R.id.drawer_user_home:
-                selectedFragment = new FragmentUserHome();
+                selectedFragment = new UserMapsActivity();
                 break;
             case R.id.drawer_user_about_us:
                 selectedFragment = new FragmentAboutUs();

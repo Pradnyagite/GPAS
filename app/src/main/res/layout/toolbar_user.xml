@@ -13,6 +13,15 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginTop="15sp"
+           android:text="User Panel"
+           android:textAlignment="textStart"
+           android:textColor="@android:color/background_light"
+           android:textSize="24sp" />
+
     </android.support.v7.widget.Toolbar>
 
     <include layout="@layout/container_user" />

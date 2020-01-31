@@ -68,7 +68,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                 selectedFragment = new FragmentAdminAllAppointments();
                 break;
             case R.id.drawer_admin_track_user:
-                selectedFragment = new FragmentAdminTrackUser();
+                selectedFragment = new AdminMapActivity();
                 break;
             case R.id.drawer_admin_about_us:
                 selectedFragment = new FragmentAboutUs();
