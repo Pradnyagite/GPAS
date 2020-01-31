@@ -85,14 +85,14 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
                 buildGoogleApiClient();
-                mGoogleMap.setMyLocationEnabled(true);
+//                mGoogleMap.setMyLocationEnabled(true);
             } else {
                 //Request Location Permission
                 checkLocationPermission();
             }
         } else {
             buildGoogleApiClient();
-            mGoogleMap.setMyLocationEnabled(true);
+//            mGoogleMap.setMyLocationEnabled(true);
         }
     }
 
@@ -209,7 +209,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
-                        mGoogleMap.setMyLocationEnabled(true);
+//                        mGoogleMap.setMyLocationEnabled(true);
                     }
 
                 } else {

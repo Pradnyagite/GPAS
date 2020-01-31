@@ -97,7 +97,7 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
                 buildGoogleApiClient();
-                mGoogleMap.setMyLocationEnabled(true);
+//                mGoogleMap.setMyLocationEnabled(true);
             } else {
                 //Request Location Permission
                 checkLocationPermission();
@@ -105,7 +105,7 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
         }
         else {
             buildGoogleApiClient();
-            mGoogleMap.setMyLocationEnabled(true);
+//            mGoogleMap.setMyLocationEnabled(true);
         }
     }
 
@@ -136,7 +136,7 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
         //move map camera
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,19));
 
 
 
@@ -237,7 +237,7 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
-                        mGoogleMap.setMyLocationEnabled(true);
+//                        mGoogleMap.setMyLocationEnabled(true);
                     }
 
                 } else {
