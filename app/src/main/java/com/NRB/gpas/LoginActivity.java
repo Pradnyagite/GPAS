@@ -67,9 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         signin(user, pass);
 
-        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(loginIntent);
+//        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+//        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(loginIntent);
 
 
     }
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    mProLogin.dismiss();
+//                    mProLogin.dismiss();
                     if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("hgFkE0JFEsbiAF8xxIlsRaBrqr63")) {
 
                         Intent loginIntent = new Intent(LoginActivity.this, UserMapsActivity.class);
@@ -95,13 +95,13 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(loginIntent);
                     } else {
 
-                        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent loginIntent = new Intent(LoginActivity.this, AdminMapActivity.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(loginIntent);
                     }
 
                 } else {
-                    mProLogin.dismiss();
+//                    mProLogin.dismiss();
                     Toast.makeText(getApplication(), "Username Or Password Incorrect", Toast.LENGTH_SHORT).show();
                 }
             }
