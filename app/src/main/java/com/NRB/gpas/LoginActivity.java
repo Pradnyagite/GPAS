@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+
+
     }
 
     public void login(View view) {
