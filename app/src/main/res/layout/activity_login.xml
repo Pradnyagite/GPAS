@@ -168,6 +168,10 @@
                 app:srcCompat="@drawable/logo_nrb" />
 
 
+
+
+
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

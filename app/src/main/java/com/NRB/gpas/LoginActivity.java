@@ -99,22 +99,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-//                    mProLogin.dismiss();
+                   mProLogin.dismiss();
                     if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("hgFkE0JFEsbiAF8xxIlsRaBrqr63")) {
 
-                        Intent loginIntent = new Intent(LoginActivity.this, UserMapsActivity.class);
+                        Intent loginIntent = new Intent(LoginActivity.this, UserHome.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(loginIntent);
                     } else {
 
-                        Intent loginIntent = new Intent(LoginActivity.this, AdminMapActivity.class);
+                        Intent loginIntent = new Intent(LoginActivity.this, AdminHome.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(loginIntent);
                     }
 
                 } else {
-//                    mProLogin.dismiss();
-                    Toast.makeText(getApplication(), "Username Or Password Incorrect", Toast.LENGTH_SHORT).show();
+                    mProLogin.dismiss();
+                    Toast.makeText(getApplication(), "Username or password incorrect", Toast.LENGTH_SHORT).show();
                 }
             }
         });
