@@ -3,6 +3,8 @@ package com.NRB.gpas;
 import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
@@ -28,6 +30,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -51,6 +55,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
     private DatabaseReference userLocationRef;
     private ValueEventListener userLocationRefListener;
     private FragmentActivity myContext;
+    private Bitmap smallMarker;
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,11 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
     }
 
     private void getUserLocation() {
+        int height = 120;
+        int width = 120;
+        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.walking);
+        Bitmap b = bitmapdraw.getBitmap();
+         smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
         userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers").child("hgFkE0JFEsbiAF8xxIlsRaBrqr63").child("Person").child("l");
         userLocationRefListener = userLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -128,6 +138,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
                     mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
                     mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
+                    mUserMarker.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                 }
             }
 
