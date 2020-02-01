@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,11 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentUserHome.OnFragmentInteractionListener,
         FragmentAboutUs.OnFragmentInteractionListener,
-        FragmentHelp.OnFragmentInteractionListener{
+        FragmentHelp.OnFragmentInteractionListener,
+        FragmentGiveFeedback.OnFragmentInteractionListener{
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
+    private TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = findViewById(R.id.user_drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        toolbarTitle = findViewById(R.id.user_toolbar_title);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,6 +53,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         navigationView.getMenu().findItem(R.id.drawer_user_home).setChecked(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_user_layout, new UserMapsActivity()).commit();
+
+        toolbarTitle.setText(navigationView.getMenu().findItem(R.id.drawer_user_home).getTitle());
 
     }
 
@@ -62,6 +67,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.drawer_user_home:
                 selectedFragment = new UserMapsActivity();
                 break;
+            case R.id.drawer_user_givefeed:
+                selectedFragment = new FragmentGiveFeedback();
+                break;
             case R.id.drawer_user_about_us:
                 selectedFragment = new FragmentAboutUs();
                 break;
@@ -73,6 +81,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_user_layout, selectedFragment).commit();
         drawer.closeDrawer(GravityCompat.START);
+
+        toolbarTitle.setText(item.getTitle());
+
         return false;
     }
 

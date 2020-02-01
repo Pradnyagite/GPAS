@@ -20,7 +20,8 @@
            android:text="User Panel"
            android:textAlignment="textStart"
            android:textColor="@android:color/background_light"
-           android:textSize="24sp" />
+           android:textSize="24sp"
+           android:id="@+id/user_toolbar_title"/>
 
     </android.support.v7.widget.Toolbar>
 

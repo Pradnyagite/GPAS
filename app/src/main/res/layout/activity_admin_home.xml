@@ -24,7 +24,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:id="@+id/admin_drawer_view"
-            app:menu="@menu/admin_drawer">
+            app:menu="@menu/admin_drawer"
+            app:headerLayout="@layout/nav_head">
 
 
         </android.support.design.widget.NavigationView>
