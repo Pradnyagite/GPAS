@@ -33,7 +33,10 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         FragmentAdminTrackUser.OnFragmentInteractionListener,
         FragmentAboutUs.OnFragmentInteractionListener,
         FragmentHelp.OnFragmentInteractionListener,
-        ChangePasswordDialog.ChangePasswordDialogListener {
+        ChangePasswordDialog.ChangePasswordDialogListener,
+        AllAppointmentsYesterday.OnFragmentInteractionListener,
+        AllAppointmentsToday.OnFragmentInteractionListener,
+        AllAppointmentsTomorrow.OnFragmentInteractionListener{
 
     private DrawerLayout drawer;
     private NavigationView navigationView;

@@ -3,10 +3,13 @@ package com.NRB.gpas;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentAdminAllAppointments extends Fragment {
+public class FragmentAdminAllAppointments extends Fragment{
 
     private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
     List<VisitorInfo> visitorInfoList;
@@ -37,7 +40,6 @@ public class FragmentAdminAllAppointments extends Fragment {
     }
 
 
-
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -47,14 +49,50 @@ public class FragmentAdminAllAppointments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.fragment_admin_all_appointments, container, false);
-        recyclerView=v.findViewById(R.id.recyclerView);
+        View v = inflater.inflate(R.layout.fragment_admin_all_appointments, container, false);
+        recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         visitorInfoList = new ArrayList<>();
         loadVisitors();
+
+        BottomNavigationView bottomNav = v.findViewById(R.id.all_appointments_bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //I added this if statement to keep the selected fragment when rotating the device
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new AllAppointmentsToday()).commit();
+        }
+
         return v;
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    switch (item.getItemId()) {
+                        case R.id.nav_yesterday:
+                            selectedFragment = new AllAppointmentsYesterday();
+                            break;
+                        case R.id.nav_today:
+                            selectedFragment = new AllAppointmentsToday();
+                            break;
+                        case R.id.nav_tomorrow:
+                            selectedFragment = new AllAppointmentsTomorrow();
+                            break;
+                    }
+
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+
+                    return true;
+                }
+            };
+
     private void loadVisitors() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_VISITORS,
@@ -86,7 +124,7 @@ public class FragmentAdminAllAppointments extends Fragment {
                                         visitor.getString("conernP"),
                                         visitor.getString("purpose"),
                                         visitor.getString("status")
-                                        ));
+                                ));
                             }
 
                             //creating adapter object and setting it to recyclerview
@@ -107,6 +145,8 @@ public class FragmentAdminAllAppointments extends Fragment {
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
