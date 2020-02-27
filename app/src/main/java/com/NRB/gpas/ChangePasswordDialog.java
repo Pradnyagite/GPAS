@@ -42,7 +42,7 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
                         } else if (newPassword.isEmpty()) {
                             Toast.makeText(view.getContext(), "Enter new password", Toast.LENGTH_SHORT).show();
                         } else if (newPassword.length() < 8) {
-                            Toast.makeText(view.getContext(), "New password should contain 8 characters", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "New password should contain at least 8 characters", Toast.LENGTH_SHORT).show();
                         } else if (reenterPassword.isEmpty()) {
                             Toast.makeText(view.getContext(), "Re-enter new password", Toast.LENGTH_SHORT).show();
                         } else if (!newPassword.matches(reenterPassword)) {
@@ -67,7 +67,7 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
             listener = (ChangePasswordDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
-                    "must implement ExampleDialogListener");
+                    "must implement ChangePasswordDialogListener");
         }
     }
 

@@ -132,7 +132,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseAuth.getInstance().signOut();
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
                             finish();
                             Toast.makeText(AdminHome.this, "Logged out", Toast.LENGTH_SHORT).show();

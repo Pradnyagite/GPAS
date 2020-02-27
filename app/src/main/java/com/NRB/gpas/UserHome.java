@@ -118,7 +118,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseAuth.getInstance().signOut();
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
                             finish();
                             Toast.makeText(UserHome.this, "Logged out", Toast.LENGTH_SHORT).show();

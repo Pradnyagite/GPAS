@@ -117,9 +117,9 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
     private void getUserLocation() {
         int height = 120;
         int width = 120;
-        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.walking);
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.walking);
         Bitmap b = bitmapdraw.getBitmap();
-         smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
         userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers").child("hgFkE0JFEsbiAF8xxIlsRaBrqr63").child("Person").child("l");
         userLocationRefListener = userLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -128,6 +128,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     List<Object> map = (List<Object>) dataSnapshot.getValue();
                     double locationLat = 0;
                     double locationLng = 0;
+
                     if (map.get(0) != null) {
                         locationLat = Double.parseDouble(map.get(0).toString());
                     }
