@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +138,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                         {
 
                             locationLat = (double)child.child("lat").getValue();
+                            Log.e("lat", "onDataChange: "+ locationLat);
                             locationLng = (double)child.child("lng").getValue();
                             LatLng userLatLng = new LatLng(locationLat, locationLng);
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
