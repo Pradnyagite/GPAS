@@ -52,7 +52,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
     SupportMapFragment mapFragment;
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
-    private Marker[] mUserMarker;
+    private Marker mUserMarker;
     private DatabaseReference userLocationRef;
     private ValueEventListener userLocationRefListener;
     private FragmentActivity myContext;
@@ -123,17 +123,15 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
         smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
         //userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers").child("hgFkE0JFEsbiAF8xxIlsRaBrqr63").child("Person").child("l");
         userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers");
-
         userLocationRefListener = userLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     //List<Object> map = (List<Object>) dataSnapshot.getValue();
                     //List<UserLocation> userLocations = (List<UserLocation>)dataSnapshot.
-                    mUserMarker = new Marker[(int) dataSnapshot.getChildrenCount()];
                     double locationLat = 0;
                     double locationLng = 0;
-                    int i = 0;
+
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
                         if(child.exists())
@@ -142,22 +140,12 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                             locationLat = (double)child.child("lat").getValue();
                             Log.e("lat", "onDataChange: "+ locationLat);
                             locationLng = (double)child.child("lng").getValue();
-
-                            mUserMarker[i] = mGoogleMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(locationLat, locationLng))
-                                    .anchor(0.5f, 0.5f)
-                                    .title("Title1")
-                                    .snippet("Snippet1")
-                                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
-
-//                            LatLng userLatLng = new LatLng(locationLat, locationLng);
-//                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
-//                            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
-//                            mUserMarker[i] = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
-//                            mUserMarker[i].setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                            i++;
+                            LatLng userLatLng = new LatLng(locationLat, locationLng);
+                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
+                            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+                            mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
+                            mUserMarker.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                         }
-
                     }
                     /*
                     double locationLat = 0;
