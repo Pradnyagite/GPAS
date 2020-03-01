@@ -120,12 +120,32 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
         BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.walking);
         Bitmap b = bitmapdraw.getBitmap();
         smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-        userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers").child("hgFkE0JFEsbiAF8xxIlsRaBrqr63").child("Person").child("l");
+        //userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers").child("hgFkE0JFEsbiAF8xxIlsRaBrqr63").child("Person").child("l");
+        userLocationRef = FirebaseDatabase.getInstance().getReference().child("ActiveUsers");
         userLocationRefListener = userLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    List<Object> map = (List<Object>) dataSnapshot.getValue();
+                    //List<Object> map = (List<Object>) dataSnapshot.getValue();
+                    //List<UserLocation> userLocations = (List<UserLocation>)dataSnapshot.
+                    double locationLat = 0;
+                    double locationLng = 0;
+
+                    for (DataSnapshot child : dataSnapshot.getChildren())
+                    {
+                        if(child.exists())
+                        {
+
+                            locationLat = (double)child.child("lat").getValue();
+                            locationLng = (double)child.child("lng").getValue();
+                            LatLng userLatLng = new LatLng(locationLat, locationLng);
+                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
+                            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
+                            mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
+                            mUserMarker.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                        }
+                    }
+                    /*
                     double locationLat = 0;
                     double locationLng = 0;
 
@@ -140,6 +160,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
                     mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
                     mUserMarker.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    */
                 }
             }
 

@@ -152,8 +152,10 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
 //        String userID="sdjfhsdhgsuyegfsdjfsjssy";
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ActiveUsers").child(userID);
 
-        GeoFire geoFire = new GeoFire(databaseReference);
-        geoFire.setLocation("Person",new GeoLocation(location.getLatitude(),location.getLongitude()));
+
+        databaseReference.setValue(new UserLocation(location.getLatitude(),location.getLongitude()));
+        //GeoFire geoFire = new GeoFire(databaseReference);
+        //geoFire.setLocation("Person",new GeoLocation(location.getLatitude(),location.getLongitude()));
     }
 
 

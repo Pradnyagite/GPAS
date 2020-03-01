@@ -33,6 +33,8 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         FragmentAdminTrackUser.OnFragmentInteractionListener,
         FragmentAboutUs.OnFragmentInteractionListener,
         FragmentHelp.OnFragmentInteractionListener,
+        FragmentAdminConcernedPerson.OnFragmentInteractionListener,
+        FragmentAdminStatus.OnFragmentInteractionListener,
         ChangePasswordDialog.ChangePasswordDialogListener,
         AllAppointmentsYesterday.OnFragmentInteractionListener,
         AllAppointmentsToday.OnFragmentInteractionListener,
@@ -81,9 +83,34 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             case R.id.drawer_admin_home:
                 selectedFragment = new FragmentAdminHome();
                 break;
-            case R.id.drawer_admin_all_appointments:
+
+            //appointments submenu start
+            case R.id.drawer_admin_all_appointments_person:
+                selectedFragment = new FragmentAdminConcernedPerson();
+                break;
+            case R.id.drawer_admin_all_appointments_status:
+                selectedFragment = new FragmentAdminStatus();
+                break;
+            case R.id.drawer_admin_all_appointments_date:
                 selectedFragment = new FragmentAdminAllAppointments();
                 break;
+            //appointments submenu end
+
+            //download submenu start
+            case R.id.drawer_admin_downloads_person:
+                //do your shit here
+                break;
+            case R.id.drawer_admin_downloads_status:
+                //do your shit here
+                break;
+            case R.id.drawer_admin_downloads_date:
+                //do your shit here
+                break;
+
+            //download submenu end
+
+
+
             case R.id.drawer_admin_track_user:
                 selectedFragment = new AdminMapActivity();
                 break;
