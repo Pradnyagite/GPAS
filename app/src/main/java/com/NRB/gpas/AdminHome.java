@@ -35,10 +35,13 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         FragmentHelp.OnFragmentInteractionListener,
         FragmentAdminConcernedPerson.OnFragmentInteractionListener,
         FragmentAdminStatus.OnFragmentInteractionListener,
+        FragmentDownloadPerson.OnFragmentInteractionListener,
+        FragmentDownloadStatus.OnFragmentInteractionListener,
+        FragmentDownloadDate.OnFragmentInteractionListener,
         ChangePasswordDialog.ChangePasswordDialogListener,
         AllAppointmentsYesterday.OnFragmentInteractionListener,
         AllAppointmentsToday.OnFragmentInteractionListener,
-        AllAppointmentsTomorrow.OnFragmentInteractionListener{
+        AllAppointmentsTomorrow.OnFragmentInteractionListener {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -66,7 +69,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.getMenu().findItem(R.id.drawer_admin_home).setChecked(true);
+        //navigationView.getMenu().findItem(R.id.drawer_admin_home).setChecked(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_admin_layout, new FragmentAdminHome()).commit();
 
@@ -77,7 +80,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment selectedFragment = null;
+        Fragment selectedFragment = new FragmentAdminHome();
 
         switch (item.getItemId()) {
             case R.id.drawer_admin_home:
@@ -98,13 +101,13 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
 
             //download submenu start
             case R.id.drawer_admin_downloads_person:
-                //do your shit here
+                selectedFragment = new FragmentDownloadPerson();
                 break;
             case R.id.drawer_admin_downloads_status:
-                //do your shit here
+                selectedFragment = new FragmentDownloadStatus();
                 break;
             case R.id.drawer_admin_downloads_date:
-                //do your shit here
+                selectedFragment = new FragmentDownloadDate();
                 break;
 
             //download submenu end
@@ -123,9 +126,11 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
 
         }
 
-        navigationView.getMenu().findItem(item.getItemId()).setChecked(true);
+        //item.setChecked(true);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.container_admin_layout, selectedFragment).commit();
         drawer.closeDrawer(GravityCompat.START);
+
 
         toolbarTitle.setText(item.getTitle());
 
