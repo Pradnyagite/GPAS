@@ -53,19 +53,6 @@ public class LoginActivity extends AppCompatActivity implements SignUpAdminDialo
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("AdminRequests");
 
-        if(mAuth.getCurrentUser()!= null) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("hgFkE0JFEsbiAF8xxIlsRaBrqr63")) {
-
-                Intent loginIntent = new Intent(LoginActivity.this, UserHome.class);
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(loginIntent);
-            } else {
-
-                Intent loginIntent = new Intent(LoginActivity.this, AdminHome.class);
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(loginIntent);
-            }
-        }
 
     }
 
@@ -131,17 +118,27 @@ public class LoginActivity extends AppCompatActivity implements SignUpAdminDialo
                 if (task.isSuccessful()) {
 
                    mProLogin.dismiss();
-                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("hgFkE0JFEsbiAF8xxIlsRaBrqr63")) {
-
-                        Intent loginIntent = new Intent(LoginActivity.this, UserHome.class);
-                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(loginIntent);
-                    } else {
+                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("2Rz94bpVCmabEbp57svQ83q4Cpb2")) {
 
                         Intent loginIntent = new Intent(LoginActivity.this, AdminHome.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(loginIntent);
+
+                    } else if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("YRX6heYKtNc6HXbRU2lmVLk7I8k2")){
+
+                        Intent loginIntent = new Intent(LoginActivity.this, SecurityPanel.class);
+                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(loginIntent);
+
+                    } else {
+                        Toast.makeText(getApplication(), "Enter valid credentials", Toast.LENGTH_SHORT).show();
                     }
+//                    else {
+//
+//                        Intent loginIntent = new Intent(LoginActivity.this, UserHome.class);
+//                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(loginIntent);
+//                    }
 
                 } else {
                     mProLogin.dismiss();

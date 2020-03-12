@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50sp"
         android:layout_marginBottom="12sp"
-        android:src="@drawable/logo_nrb_white"/>
+        android:src="@drawable/logo_freshtrop_white"/>
 
 </RelativeLayout>

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class AllAppointmentsYesterday extends Fragment {
+public class AllAppointmentsYesterday extends Fragment implements VisitorAdaptor.OnVisitorListener {
     private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
@@ -37,8 +37,7 @@ public class AllAppointmentsYesterday extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_all_appointments_yesterday, container, false);
         recyclerView = v.findViewById(R.id.recyclerView3);
@@ -46,7 +45,9 @@ public class AllAppointmentsYesterday extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         visitorInfoList = new ArrayList<>();
         loadVisitors();
-        return v;    }
+        return v;
+    }
+
     private void loadVisitors() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_VISITORS,
@@ -87,7 +88,7 @@ public class AllAppointmentsYesterday extends Fragment {
                                 }
                             }
                             //creating adapter object and setting it to recyclerview
-                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList);
+                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList,AllAppointmentsYesterday.this);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -103,6 +104,15 @@ public class AllAppointmentsYesterday extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
+    }
+
+    public void test1(View view){
+
+    }
+
+    @Override
+    public void onVisitorClick(int position) {
+
     }
 
     public interface OnFragmentInteractionListener {

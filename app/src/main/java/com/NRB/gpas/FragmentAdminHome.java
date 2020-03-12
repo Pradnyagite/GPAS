@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class FragmentAdminHome extends Fragment {
+public class FragmentAdminHome extends Fragment implements VisitorAdaptor.OnVisitorListener {
     private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
@@ -82,7 +82,7 @@ public class FragmentAdminHome extends Fragment {
 
                             }
                             //creating adapter object and setting it to recyclerview
-                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList);
+                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentAdminHome.this);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -98,6 +98,11 @@ public class FragmentAdminHome extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
+    }
+
+    @Override
+    public void onVisitorClick(int position) {
+
     }
 
     public interface OnFragmentInteractionListener {

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C2091B</color>
-    <color name="colorPrimaryDark">#A50817</color>
+
+    <color name="colorPrimary">#50AA04</color>
+    <color name="colorPrimaryDark">#8BC34A</color>
     <color name="colorAccent">#474747</color>
+    <!--NRB Color scheme-->
+    <!--<color name="colorPrimary">#C2091B</color>-->
+    <!--<color name="colorPrimaryDark">#A50817</color>-->
+    <!--<color name="colorAccent">#474747</color>-->
 </resources>

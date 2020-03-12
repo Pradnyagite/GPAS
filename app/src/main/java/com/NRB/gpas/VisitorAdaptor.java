@@ -11,21 +11,24 @@ import android.widget.TextView;
 import java.util.List;
 
 public class VisitorAdaptor extends RecyclerView.Adapter<VisitorAdaptor.VisitorsViewHolder> {
-//    private Context mContext;
+    //    private Context mContext;
     private List<VisitorInfo> visitorInfoList;
+    private OnVisitorListener mOnVisitorListener;
 
-    public VisitorAdaptor( List<VisitorInfo> visitorInfoList) {
+    public VisitorAdaptor(List<VisitorInfo> visitorInfoList,OnVisitorListener onVisitorListener) {
 //        this.mContext = mContext;
         this.visitorInfoList = visitorInfoList;
+        this.mOnVisitorListener = onVisitorListener;
     }
+
     @Override
     public VisitorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        LayoutInflater inflater = LayoutInflater.from(mContext);
 //        View view = inflater.inflate(R.layout.visitors_list, null);
 //        return new VisitorsViewHolder(view);
 
-        View view =LayoutInflater.from(parent.getContext()).inflate(R.layout.visitors_list,parent,false);
-        VisitorsViewHolder viewHolder=new VisitorsViewHolder(view) ;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.visitors_list, parent, false);
+        VisitorsViewHolder viewHolder = new VisitorsViewHolder(view, mOnVisitorListener);
         return viewHolder;
     }
 
@@ -37,17 +40,20 @@ public class VisitorAdaptor extends RecyclerView.Adapter<VisitorAdaptor.Visitors
         holder.textViewRating.setText(String.valueOf(visitor.getConcernPerson()));
         holder.textViewPrice.setText(String.valueOf(visitor.getVDate()));
     }
+
     @Override
     public int getItemCount() {
         return visitorInfoList.size();
     }
 
-    class VisitorsViewHolder extends RecyclerView.ViewHolder {
+    class VisitorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
-//        ImageView imageView;
+        OnVisitorListener onVisitorListener;
+
+        //        ImageView imageView;
 //
-        public VisitorsViewHolder(View itemView) {
+        public VisitorsViewHolder(View itemView, OnVisitorListener onVisitorListener) {
             super(itemView);
 
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
@@ -55,6 +61,20 @@ public class VisitorAdaptor extends RecyclerView.Adapter<VisitorAdaptor.Visitors
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
 //            imageView = itemView.findViewById(R.id.imageView);
+
+            this.onVisitorListener = onVisitorListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onVisitorListener.onVisitorClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnVisitorListener {
+
+        void onVisitorClick(int position);
+
     }
 }

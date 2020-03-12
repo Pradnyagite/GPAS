@@ -106,15 +106,13 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="134sp"
-                android:layout_marginLeft="134sp"
                 android:layout_marginTop="572sp"
                 android:layout_marginEnd="135sp"
-                android:layout_marginRight="135sp"
                 android:layout_marginBottom="133sp"
                 android:clickable="true"
                 android:gravity="center"
                 android:onClick="gotoAdmin"
-                android:text="Go to admin login"
+                android:text="Not a user?"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +181,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.211"
-                app:srcCompat="@drawable/logo_nrb" />
+                app:srcCompat="@drawable/logo_freshtrop" />
 
 
         </android.support.constraint.ConstraintLayout>
