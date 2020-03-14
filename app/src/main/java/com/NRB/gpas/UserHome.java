@@ -82,6 +82,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         getSupportFragmentManager().beginTransaction().replace(R.id.container_user_layout, selectedFragment).commit();
         drawer.closeDrawer(GravityCompat.START);
 
+        item.setChecked(true);
         toolbarTitle.setText(item.getTitle());
 
         return false;

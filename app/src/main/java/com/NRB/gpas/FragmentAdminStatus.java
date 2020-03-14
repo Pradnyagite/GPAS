@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class FragmentAdminStatus extends Fragment {
+public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVisitorListener {
     private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
@@ -99,7 +99,7 @@ public class FragmentAdminStatus extends Fragment {
                                 }
                             }
                             //creating adapter object and setting it to recyclerview
-                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList);
+                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentAdminStatus.this);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -115,6 +115,11 @@ public class FragmentAdminStatus extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
+    }
+
+    @Override
+    public void onVisitorClick(int position) {
+
     }
 
     public interface OnFragmentInteractionListener {

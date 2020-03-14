@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentAdminConcernedPerson extends Fragment {
-    private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
+public class FragmentAdminConcernedPerson extends Fragment implements VisitorAdaptor.OnVisitorListener {
+    private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
     private Spinner spinner1;
@@ -95,7 +95,7 @@ public class FragmentAdminConcernedPerson extends Fragment {
                                 }
                             }
                             //creating adapter object and setting it to recyclerview
-                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList);
+                            VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentAdminConcernedPerson.this);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -111,6 +111,11 @@ public class FragmentAdminConcernedPerson extends Fragment {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
+    }
+
+    @Override
+    public void onVisitorClick(int position) {
+
     }
 
     public interface OnFragmentInteractionListener {

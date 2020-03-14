@@ -30,7 +30,7 @@ import java.util.Locale;
 
 
 public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.OnVisitorListener {
-    private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
+    private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
 
