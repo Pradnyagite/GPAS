@@ -8,6 +8,19 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Visitor card"
-        android:textAlignment="center" />
+        android:padding="25dp"
+        android:text="Visitor Card"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cardinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:text="TextView"
+        android:textAlignment="textStart"
+        android:textSize="18sp" />
 </LinearLayout>

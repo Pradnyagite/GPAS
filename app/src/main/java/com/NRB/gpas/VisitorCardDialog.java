@@ -8,11 +8,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 public class VisitorCardDialog extends AppCompatDialogFragment {
 
-
+    private VisitorInfo visitorInfo;
     private VisitorCardDialogListener listener;
+
+  public void getObject(VisitorInfo v){
+this.visitorInfo=v;
+  }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -23,7 +28,13 @@ public class VisitorCardDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.visitor_card_dialog, null);
-
+        TextView tv=view.findViewById(R.id.cardinfo);
+        tv.setText("Name - "+visitorInfo.getName()+"\nEmail Id - "+visitorInfo.getEmail()
+                +"\nMobile Number - "+visitorInfo.getContact()+"\nVisit Date - "+visitorInfo.getVDate()
+                +"\nVisit Time - "+visitorInfo.getVTime()+"\nLeave Time - "+visitorInfo.getLTime()
+                +"\nConcerned Person - "+visitorInfo.getConcernPerson()+"\nVehicle Number - "
+                +"\nOrganization Name - "+visitorInfo.getOrg()+"\nPurpose of Meeting - "+visitorInfo.getPurpose()
+                +"\nStatus - "+visitorInfo.getStatus());
         builder.setView(view)
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     @Override
