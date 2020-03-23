@@ -195,7 +195,7 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
                     sheet.addCell(new Label(1, nextRow, res.getAddress()));
                     sheet.addCell(new Label(2, nextRow, res.getEmail()));
                     sheet.addCell(new Label(3, nextRow, res.getContact()));
-                    sheet.addCell(new Label(4, nextRow, "vehicle"));
+                    sheet.addCell(new Label(4, nextRow, res.getVehicle()));
                     sheet.addCell(new Label(5, nextRow, res.getOrg()));
                     sheet.addCell(new Label(6, nextRow, res.getVDate()));
                     sheet.addCell(new Label(7, nextRow, res.getVTime()));

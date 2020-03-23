@@ -14,14 +14,14 @@ public class VisitorInfo {
     private String ConcernPerson;
     private String Purpose;
     private String Status;
-//    private String Vehicle;
-    public VisitorInfo(int id, String name, String address, String email, String contact, String gender, String org, String VDate, String VTime, String LTime, String concernPerson, String purpose, String status) {
+    private String Vehicle;
+    public VisitorInfo(int id, String name, String address, String email, String contact, String vehicle, String org, String VDate, String VTime, String LTime, String concernPerson, String purpose, String status) {
         this.id = id;
         Name = name;
         Address = address;
         Email = email;
         Contact = contact;
-        Gender = gender;
+//        Gender = gender;
         Org = org;
         this.VDate = VDate;
         this.VTime = VTime;
@@ -29,12 +29,12 @@ public class VisitorInfo {
         ConcernPerson = concernPerson;
         Purpose = purpose;
         Status = status;
-//        Vehicle=vehicle;
+        Vehicle=vehicle;
     }
 
-//    public String getVehicle() {
-//        return Vehicle;
-//    }
+    public String getVehicle() {
+        return Vehicle;
+    }
 
     public int getId() {
         return id;

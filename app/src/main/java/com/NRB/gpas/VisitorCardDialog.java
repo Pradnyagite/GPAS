@@ -32,7 +32,7 @@ this.visitorInfo=v;
         tv.setText("Name - "+visitorInfo.getName()+"\nEmail Id - "+visitorInfo.getEmail()
                 +"\nMobile Number - "+visitorInfo.getContact()+"\nVisit Date - "+visitorInfo.getVDate()
                 +"\nVisit Time - "+visitorInfo.getVTime()+"\nLeave Time - "+visitorInfo.getLTime()
-                +"\nConcerned Person - "+visitorInfo.getConcernPerson()+"\nVehicle Number - "
+                +"\nConcerned Person - "+visitorInfo.getConcernPerson()+"\nVehicle Number - "+visitorInfo.getVehicle()
                 +"\nOrganization Name - "+visitorInfo.getOrg()+"\nPurpose of Meeting - "+visitorInfo.getPurpose()
                 +"\nStatus - "+visitorInfo.getStatus());
         builder.setView(view)
@@ -54,7 +54,7 @@ this.visitorInfo=v;
             listener = (VisitorCardDialog.VisitorCardDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
-                    "must implement VisitorCardDialogListener");
+                    " must implement VisitorCardDialogListener");
         }
     }
 
