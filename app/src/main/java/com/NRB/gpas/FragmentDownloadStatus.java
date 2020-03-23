@@ -1,6 +1,5 @@
 package com.NRB.gpas;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,8 +45,8 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
-    private Spinner spinner1;
     Button b;
+    private Spinner spinner1;
     private OnFragmentInteractionListener mListener;
 
     public FragmentDownloadStatus() {
@@ -58,8 +57,8 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_download_status, container, false);
-        b=v.findViewById(R.id.button);
+        View v = inflater.inflate(R.layout.fragment_download_status, container, false);
+        b = v.findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,10 +83,6 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
         return v;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
     private void loadVisitors() {
         visitorInfoList = new ArrayList<>();
 
@@ -139,23 +134,22 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
 
                     }
                 });
-
-        //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+
     @Override
     public void onVisitorClick(int position) {
-        VisitorInfo visitorInfo= visitorInfoList.get(position);
+        VisitorInfo visitorInfo = visitorInfoList.get(position);
         VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
         visitorCardDialog.getObject(visitorInfo);
-        visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
+        visitorCardDialog.show(getFragmentManager(), "Visitor info dialog");
     }
-    public void createExcelSheet()
-    {
+
+    public void createExcelSheet() {
         String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        String Fnamexls="Visitor data "+currentDateTimeString+ ".xls";
+        String Fnamexls = "Visitor data " + currentDateTimeString + ".xls";
         File sdCard = Environment.getExternalStorageDirectory();
-        File directory = new File (sdCard.getAbsolutePath() + "/Visitors");
+        File directory = new File(sdCard.getAbsolutePath() + "/Visitors");
         directory.mkdirs();
         File file = new File(directory, Fnamexls);
 
@@ -203,7 +197,6 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
                     sheet.addCell(new Label(9, nextRow, res.getConcernPerson()));
                     sheet.addCell(new Label(10, nextRow, res.getPurpose()));
                     sheet.addCell(new Label(11, nextRow, res.getStatus()));
-
                     nextRow++;
                 }
             } catch (RowsExceededException e) {
@@ -223,5 +216,9 @@ public class FragmentDownloadStatus extends Fragment implements VisitorAdaptor.O
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
 }
