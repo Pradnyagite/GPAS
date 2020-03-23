@@ -41,7 +41,8 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         ChangePasswordDialog.ChangePasswordDialogListener,
         AllAppointmentsYesterday.OnFragmentInteractionListener,
         AllAppointmentsToday.OnFragmentInteractionListener,
-        AllAppointmentsTomorrow.OnFragmentInteractionListener {
+        AllAppointmentsTomorrow.OnFragmentInteractionListener,
+        VisitorCardDialog.VisitorCardDialogListener {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -225,6 +226,11 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                 }
             }
         });
+    }
+
+    @Override
+    public void applyTexts() {
+
     }
 }
 

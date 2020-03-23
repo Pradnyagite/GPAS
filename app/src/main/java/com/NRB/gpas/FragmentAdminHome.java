@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class FragmentAdminHome extends Fragment implements VisitorAdaptor.OnVisitorListener {
+public class FragmentAdminHome extends Fragment implements VisitorAdaptor.OnVisitorListener{
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
