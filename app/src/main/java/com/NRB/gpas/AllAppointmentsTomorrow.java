@@ -112,7 +112,8 @@ public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.
 
     @Override
     public void onVisitorClick(int position) {
-        visitorInfoList.get(position);
+        VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
+        visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
     }
 
     public interface OnFragmentInteractionListener {

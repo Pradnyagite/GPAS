@@ -1,5 +1,6 @@
 package com.NRB.gpas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -27,6 +28,7 @@ public class UserLoginActivity extends AppCompatActivity {
     private Button sendOtp, userlogin;
     private String contact, otp, verificationCode;
     private TextInputLayout contactTil, otpTil;
+    private ProgressDialog mProLogin;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     FirebaseAuth auth;
 
@@ -36,7 +38,7 @@ public class UserLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_login);
 
         auth = FirebaseAuth.getInstance();
-
+        mProLogin = new ProgressDialog(this);
         contactEt = findViewById(R.id.user_login_contact);
         otpEt = findViewById(R.id.user_login_otp);
 
@@ -58,11 +60,18 @@ public class UserLoginActivity extends AppCompatActivity {
         } else if (contact.length() != 10) {
             Toast.makeText(this, "Invalid contact number", Toast.LENGTH_SHORT).show();
         } else {
+            mProLogin.setTitle("Sending OTP");
+
+            mProLogin.setCanceledOnTouchOutside(false);
+
+            mProLogin.show();
+
             mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
                     Toast.makeText(UserLoginActivity.this, "Verification completed", Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
@@ -79,6 +88,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     sendOtp.setVisibility(View.INVISIBLE);
                     contactTil.setVisibility(View.INVISIBLE);
                     otpTil.setVisibility(View.VISIBLE);
+                    mProLogin.dismiss();
                 }
             };
 
@@ -100,15 +110,23 @@ public class UserLoginActivity extends AppCompatActivity {
         otp = otpEt.getText().toString();
         if (TextUtils.isEmpty(otp)) {
             Toast.makeText(getApplicationContext(), "Enter OTP", Toast.LENGTH_SHORT).show();
+
             return;
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
+            mProLogin.setTitle("Logging in");
+
+            mProLogin.setCanceledOnTouchOutside(false);
+
+            mProLogin.show();
+
 
             auth.signInWithCredential(credential)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                mProLogin.dismiss();
                                 startActivity(intent);
                                 otpEt.setText("");
                                 contactEt.setText("");

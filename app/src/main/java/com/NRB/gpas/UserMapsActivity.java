@@ -76,7 +76,7 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
         int height = 120;
         int width = 120;
-        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.user_icon);
+        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.userlogo);
         Bitmap b = bitmapdraw.getBitmap();
         smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
         return view;

@@ -1,12 +1,10 @@
 package com.NRB.gpas;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVisitorListener {
@@ -119,7 +114,8 @@ public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVi
 
     @Override
     public void onVisitorClick(int position) {
-
+        VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
+        visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
     }
 
     public interface OnFragmentInteractionListener {

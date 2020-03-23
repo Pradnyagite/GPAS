@@ -116,6 +116,9 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
     @Override
     public void onVisitorClick(int position) {
 
+        VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
+        visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
+
     }
 
     public interface OnFragmentInteractionListener {

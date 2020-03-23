@@ -27,7 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AllAppointmentsToday extends Fragment implements VisitorAdaptor.OnVisitorListener {
+public class AllAppointmentsToday extends Fragment implements
+        VisitorAdaptor.OnVisitorListener,
+        VisitorCardDialog.VisitorCardDialogListener {
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
@@ -111,6 +113,15 @@ public class AllAppointmentsToday extends Fragment implements VisitorAdaptor.OnV
 
     @Override
     public void onVisitorClick(int position) {
+
+        VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
+        visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
+
+
+    }
+
+    @Override
+    public void applyTexts() {
 
     }
 

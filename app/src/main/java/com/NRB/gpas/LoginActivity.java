@@ -83,7 +83,9 @@ public class LoginActivity extends AppCompatActivity implements SignUpAdminDialo
                         mProLogin.setTitle("Logging In");
                         mProLogin.setMessage("Please wait while we check your credentials");
                         mProLogin.setCanceledOnTouchOutside(false);
+
                         mProLogin.show();
+
                         signin(user, pass);
                     }
                 }
