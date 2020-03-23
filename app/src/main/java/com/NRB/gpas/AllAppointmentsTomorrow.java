@@ -80,7 +80,7 @@ public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.
                                             visitor.getString("address"),
                                             visitor.getString("email"),
                                             visitor.getString("contact"),
-                                            visitor.getString("gender"),
+                                            visitor.getString("Vehicle"),
                                             visitor.getString("org"),
                                             visitor.getString("vD"),
                                             visitor.getString("vT"),

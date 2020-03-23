@@ -26,7 +26,7 @@ import java.util.List;
 
 
 public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVisitorListener {
-    private static final String URL_VISITORS = "http://192.168.29.229/android/scrpit.php";
+    private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
     private Spinner spinner1;
@@ -82,7 +82,7 @@ public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVi
                                             visitor.getString("address"),
                                             visitor.getString("email"),
                                             visitor.getString("contact"),
-                                            visitor.getString("gender"),
+                                            visitor.getString("Vehicle"),
                                             visitor.getString("org"),
                                             visitor.getString("vD"),
                                             visitor.getString("vT"),
