@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -214,6 +215,8 @@ public class FragmentDownloadPerson extends Fragment implements VisitorAdaptor.O
 
 
             workbook.write();
+            Toast.makeText(getContext(), "Data Downloaded to "+file, Toast.LENGTH_SHORT).show();
+
             try {
                 workbook.close();
             } catch (WriteException e) {
