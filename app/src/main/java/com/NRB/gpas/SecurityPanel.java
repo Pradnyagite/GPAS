@@ -31,7 +31,8 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
         FragmentSecurityHome.OnFragmentInteractionListener,
         FragmentSecurityScanQR.OnFragmentInteractionListener,
         FragmentHelp.OnFragmentInteractionListener,
-        ChangePasswordDialog.ChangePasswordDialogListener{
+        ChangePasswordDialog.ChangePasswordDialogListener,
+        VisitorCardDialog.VisitorCardDialogListener {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -182,5 +183,10 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
+    }
+
+    @Override
+    public void applyTexts() {
+
     }
 }

@@ -1,106 +1,192 @@
 package com.NRB.gpas;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentSecurityScanQR.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentSecurityScanQR#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentSecurityScanQR extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class FragmentSecurityScanQR extends Fragment  {
+SurfaceView surfaceView;
+CameraSource cameraSource;
+TextView textView;
+BarcodeDetector barcodeDetector;
+String QrData;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+private static final String URL_VISITORS = IPString.ip;
+List<VisitorInfo> visitorInfoList;
 
-    private OnFragmentInteractionListener mListener;
 
     public FragmentSecurityScanQR() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSecurityScanQR.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentSecurityScanQR newInstance(String param1, String param2) {
-        FragmentSecurityScanQR fragment = new FragmentSecurityScanQR();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_security_scan_qr, container, false);
+
+        View v=inflater.inflate(R.layout.fragment_security_scan_qr, container, false);
+        surfaceView=v.findViewById(R.id.cameraView);
+        textView=v.findViewById(R.id.TextViewQr);
+
+        barcodeDetector=new BarcodeDetector.Builder(getContext())
+                .setBarcodeFormats(Barcode.QR_CODE).build();
+
+        cameraSource=new CameraSource.Builder(getContext(),barcodeDetector)
+                .setRequestedPreviewSize(640,480).build();
+
+        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+                try {
+                    cameraSource.start(holder);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                cameraSource.stop();
+            }
+        });
+
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> qrcodes=detections.getDetectedItems();
+
+                if(qrcodes.size()!=0){
+                    textView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int a=0;
+                            Vibrator vibrator=(Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            vibrator.vibrate(1000);
+                            QrData=qrcodes.valueAt(0).displayValue;
+                            String[] temp=QrData.split("=");
+
+                            a =Integer.parseInt(temp[1]);
+
+//                            textView.setText(qrcodes.valueAt(0).displayValue+" " + a);
+                            if(a != 0){
+                                loadVisitors(a);
+
+                            }
+
+                        }
+                    });
+                    cameraSource.stop();
+
+                }
+
+            }
+        });
+
+        return v;
+    }
+    private void loadVisitors(final int abc) {
+        Log.e("jaaadu", "loadVisitors: "+abc );
+        visitorInfoList = new ArrayList<>();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_VISITORS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject visitor = array.getJSONObject(i);
+                                int temp=visitor.getInt("id");
+                                    if (temp==abc) {
+                                        //adding the product to product list
+                                        visitorInfoList.add(new VisitorInfo(
+                                                visitor.getInt("id"),
+                                                visitor.getString("name"),
+                                                visitor.getString("address"),
+                                                visitor.getString("email"),
+                                                visitor.getString("contact"),
+                                                visitor.getString("Vehicle"),
+                                                visitor.getString("org"),
+                                                visitor.getString("vD"),
+                                                visitor.getString("vT"),
+                                                visitor.getString("leaveT"),
+                                                visitor.getString("conernP"),
+                                                visitor.getString("purpose"),
+                                                visitor.getString("status")
+                                        ));
+                                    }
+                            }
+                            VisitorInfo visitorInfo=visitorInfoList.get(0);
+                            VisitorCardDialog visitorCardDialog = new VisitorCardDialog();
+                            visitorCardDialog.getObject(visitorInfo);
+                            visitorCardDialog.show(getFragmentManager(),"Visitor info dialog");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        Volley.newRequestQueue(getActivity()).add(stringRequest);
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
