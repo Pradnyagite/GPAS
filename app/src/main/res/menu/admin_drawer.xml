@@ -12,6 +12,11 @@
         <item
             android:id="@+id/drawer_admin_track_user"
             android:title="Track user" />
+
+        <item
+            android:id="@+id/drawer_admin_add_user"
+            android:title="Add user" />
+
         <item android:title="Appointments">
 
             <menu>

@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SecurityPanel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentAdminHome.OnFragmentInteractionListener,
+        FragmentSecurityHome.OnFragmentInteractionListener,
+        FragmentSecurityScanQR.OnFragmentInteractionListener,
         FragmentHelp.OnFragmentInteractionListener,
         ChangePasswordDialog.ChangePasswordDialogListener{
 
@@ -58,9 +60,9 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //navigationView.getMenu().findItem(R.id.drawer_admin_home).setChecked(true);
+        navigationView.getMenu().findItem(R.id.drawer_security_home).setChecked(true);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_security_layout, new FragmentAdminAllAppointments()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_security_layout, new FragmentSecurityHome()).commit();
 
         toolbarTitle.setText(navigationView.getMenu().findItem(R.id.drawer_security_home).getTitle());
     }
@@ -69,11 +71,15 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
-        Fragment selectedFragment = new FragmentAdminAllAppointments();
+        Fragment selectedFragment = new FragmentSecurityHome();
 
         switch (item.getItemId()) {
             case R.id.drawer_security_home:
-                selectedFragment = new FragmentAdminAllAppointments();
+                selectedFragment = new FragmentSecurityHome();
+                break;
+
+            case R.id.drawer_security_scan_qr:
+                selectedFragment = new FragmentSecurityScanQR();
                 break;
 
             case R.id.drawer_security_help:
@@ -82,7 +88,7 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
 
         }
 
-        //item.setChecked(true);
+        item.setChecked(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_security_layout, selectedFragment).commit();
         drawer.closeDrawer(GravityCompat.START);
