@@ -93,10 +93,11 @@ public class LoginSupport extends AsyncTask<String,Void,String> {
         }
         else if(temp[0].equals("Employee")){
             Intent i=new Intent(context,ConcernedPerson.class);
-            i.putExtra("name",temp[1]);
+//            i.putExtra("name",temp[1]);
             context.startActivity(i);
             sp.edit().putBoolean("logged",true).apply();
             sp.edit().putString("user","Employee").apply();
+            sp.edit().putString("name",temp[1]).apply();
         }
         else{
             alertDialog.setMessage("Invalid User");

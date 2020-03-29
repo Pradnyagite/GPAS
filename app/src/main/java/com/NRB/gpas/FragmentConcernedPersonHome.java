@@ -2,6 +2,7 @@ package com.NRB.gpas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class FragmentConcernedPersonHome extends Fragment implements VisitorAdaptor.OnVisitorListener{
     private static final String URL_VISITORS = IPString.ip;
@@ -45,8 +48,10 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         visitorInfoList = new ArrayList<>();
-        Intent i=getActivity().getIntent();
-        name=i.getExtras().getString("name");
+//        Intent i=getActivity().getIntent();
+//        name=i.getExtras().getString("name");
+        SharedPreferences sp=getContext().getSharedPreferences("login",MODE_PRIVATE);
+        name=sp.getString("name","");
         loadVisitors();
         return v;
     }
