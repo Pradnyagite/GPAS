@@ -25,9 +25,11 @@
     <string name="yesterday">Yesterday</string>
     <string name="tomorrow">Tomorrow</string>
 
-    <string-array name="names">
-        <item>Aniket Kulkarni</item>
-        <item>Sachin Shejul</item>
+    <string-array name="designation">
+        <item>Choose..</item>
+        <item>Authority</item>
+        <item>Employee</item>[
+        <item>Security</item>
     </string-array>
     <string-array name="Status">
         <item>Approved</item>

@@ -61,6 +61,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         });
         return v;
     }
+
     private void loadVisitors() {
         visitorInfoList = new ArrayList<>();
 
@@ -116,6 +117,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+
     private void loadPersons() {
         personList= new ArrayList<>();
 
@@ -152,6 +154,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         Volley.newRequestQueue(getActivity()).add(stringRequest);
 
     }
+
     private void populateSpinner() {
         List<String> lables = new ArrayList<String>();
 
@@ -171,6 +174,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         // attaching data adapter to spinner
         spinner1.setAdapter(spinnerAdapter);
     }
+
     @Override
     public void onVisitorClick(int position) {
         VisitorInfo visitorInfo= visitorInfoList.get(position);
