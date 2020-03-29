@@ -3,6 +3,7 @@ package com.NRB.gpas;
 import java.net.URLEncoder;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.content.Context;
 import android.app.AlertDialog;
@@ -17,10 +18,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class LoginSupport extends AsyncTask<String,Void,String> {
     Context context;
     AlertDialog alertDialog;
+    SharedPreferences sp;
     LoginSupport (Context ctx) {
         context = ctx;
     }
@@ -67,6 +71,7 @@ public class LoginSupport extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPreExecute() {
+        sp = context.getSharedPreferences("login",MODE_PRIVATE);
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Login Status");
     }
@@ -77,15 +82,21 @@ public class LoginSupport extends AsyncTask<String,Void,String> {
         if(temp[0].equals("Authority")){
             Intent i=new Intent(context,AdminHome.class);
             context.startActivity(i);
+            sp.edit().putBoolean("logged",true).apply();
+            sp.edit().putString("user","Authority").apply();
         }
         else if(temp[0].equals("Security")){
             Intent i=new Intent(context,SecurityPanel.class);
             context.startActivity(i);
+            sp.edit().putBoolean("logged",true).apply();
+            sp.edit().putString("user","Security").apply();
         }
         else if(temp[0].equals("Employee")){
             Intent i=new Intent(context,ConcernedPerson.class);
             i.putExtra("name",temp[1]);
             context.startActivity(i);
+            sp.edit().putBoolean("logged",true).apply();
+            sp.edit().putString("user","Employee").apply();
         }
         else{
             alertDialog.setMessage("Invalid User");

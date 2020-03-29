@@ -2,6 +2,7 @@ package com.NRB.gpas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -38,7 +39,7 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
     private NavigationView navigationView;
     private TextView toolbarTitle;
     private FirebaseUser user;
-
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
 
         Toolbar toolbar = findViewById(R.id.security_toolbar);
         setSupportActionBar(toolbar);
-
+        sharedPreferences=getSharedPreferences("login",MODE_PRIVATE);
         drawer = findViewById(R.id.security_drawer_layout);
 
         toolbarTitle = findViewById(R.id.security_toolbar_title);
@@ -124,7 +125,11 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            FirebaseAuth.getInstance().signOut();
+//                            FirebaseAuth.getInstance().signOut();
+
+                            sharedPreferences.edit().putBoolean("logged",false).apply();
+                            sharedPreferences.edit().putString("user","").apply();
+
                             Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
                             finish();

@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity{
         username =  findViewById(R.id.login_et_un);
         password =findViewById(R.id.login_et_pass);
         login =  findViewById(R.id.btn_login_login);
+
 //        mProLogin = new ProgressDialog(this);
 //
 //        mAuth = FirebaseAuth.getInstance();

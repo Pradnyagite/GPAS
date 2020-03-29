@@ -2,6 +2,7 @@ package com.NRB.gpas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -49,7 +50,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
     private NavigationView navigationView;
     private TextView toolbarTitle;
     private FirebaseUser user;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,8 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
 
         Toolbar toolbar = findViewById(R.id.admin_toolbar);
         setSupportActionBar(toolbar);
+
+        sharedPreferences=getSharedPreferences("login",MODE_PRIVATE);
 
         drawer = findViewById(R.id.admin_drawer_layout);
 
@@ -171,7 +174,11 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            FirebaseAuth.getInstance().signOut();
+//                            FirebaseAuth.getInstance().signOut();
+
+                            sharedPreferences.edit().putBoolean("logged",false).apply();
+                            sharedPreferences.edit().putString("user","").apply();
+
                             Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
                             finish();

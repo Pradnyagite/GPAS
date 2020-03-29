@@ -10,40 +10,59 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-
+//    private FirebaseAuth mAuth;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
-        mAuth = FirebaseAuth.getInstance();
+        sp = getSharedPreferences("login",MODE_PRIVATE);
+//        mAuth = FirebaseAuth.getInstance();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-
-                if (mAuth.getCurrentUser() != null) {
-                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("2Rz94bpVCmabEbp57svQ83q4Cpb2")) {
-
-                        Intent loginIntent = new Intent(SplashScreen.this, AdminHome.class);
-                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(loginIntent);
-
-                    } else if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("YRX6heYKtNc6HXbRU2lmVLk7I8k2")){
-
-                        Intent loginIntent = new Intent(SplashScreen.this, SecurityPanel.class);
-                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(loginIntent);
-
-                    }
-                } else {
-
-                    Intent homeIntent = new Intent(SplashScreen.this, UserLoginActivity.class);
-                    startActivity(homeIntent);
-                    finish();
+            if (sp.getBoolean("logged",false)){
+                if(sp.getString("user","").equals("Authority")){
+                    Intent loginIntent = new Intent(SplashScreen.this, AdminHome.class);
+                    startActivity(loginIntent);
                 }
+                else if(sp.getString("user","").equals("Employee")){
+                    Intent loginIntent = new Intent(SplashScreen.this, ConcernedPerson.class);
+                    startActivity(loginIntent);
+                }
+                else if(sp.getString("user","").equals("Security")){
+                    Intent loginIntent = new Intent(SplashScreen.this, SecurityPanel.class);
+                    startActivity(loginIntent);
+                }
+            }
+            else {
+                Intent homeIntent = new Intent(SplashScreen.this, UserLoginActivity.class);
+                startActivity(homeIntent);
+                finish();
+            }
+
+//                if (mAuth.getCurrentUser() != null) {
+//                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("2Rz94bpVCmabEbp57svQ83q4Cpb2")) {
+//
+//                        Intent loginIntent = new Intent(SplashScreen.this, AdminHome.class);
+//                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(loginIntent);
+//
+//                    } else if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("YRX6heYKtNc6HXbRU2lmVLk7I8k2")){
+//
+//                        Intent loginIntent = new Intent(SplashScreen.this, SecurityPanel.class);
+//                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(loginIntent);
+//
+//                    }
+//                }
+//                else {
+//
+//                    Intent homeIntent = new Intent(SplashScreen.this, UserLoginActivity.class);
+//                    startActivity(homeIntent);
+//                    finish();
+//                }
 
             }
         }, 2000);
