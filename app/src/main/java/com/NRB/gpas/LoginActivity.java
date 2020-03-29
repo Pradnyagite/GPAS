@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity{
         LoginSupport backgroundWorker = new LoginSupport(this);
         backgroundWorker.execute(type, sUsername, sPassword);
     }
+
 //    public void login(View view) {
 //        //Intent intent = new Intent(this, MainActivity.class);
 ////        mProLogin.setMessage("Logging in Please Wait...");

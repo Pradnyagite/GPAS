@@ -29,7 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class ConcernedPerson extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
     FragmentConcernedPersonHome.OnFragmentInteractionListener,
     FragmentHelp.OnFragmentInteractionListener,
-    ChangePasswordDialog.ChangePasswordDialogListener{
+    ChangePasswordDialog.ChangePasswordDialogListener,
+ VisitorCardDialog.VisitorCardDialogListener{
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -172,5 +173,10 @@ public class ConcernedPerson extends AppCompatActivity implements NavigationView
                 }
             }
         });
+    }
+
+    @Override
+    public void applyTexts() {
+
     }
 }

@@ -73,16 +73,18 @@ public class LoginSupport extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(result.equals("Authority")){
+        String[] temp=result.split("#");
+        if(temp[0].equals("Authority")){
             Intent i=new Intent(context,AdminHome.class);
             context.startActivity(i);
         }
-        else if(result.equals("Security")){
+        else if(temp[0].equals("Security")){
             Intent i=new Intent(context,SecurityPanel.class);
             context.startActivity(i);
         }
-        else if(result.equals("Employee")){
+        else if(temp[0].equals("Employee")){
             Intent i=new Intent(context,ConcernedPerson.class);
+            i.putExtra("name",temp[1]);
             context.startActivity(i);
         }
         else{
