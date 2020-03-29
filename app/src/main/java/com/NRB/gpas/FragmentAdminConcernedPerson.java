@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,6 +31,7 @@ import java.util.List;
 public class FragmentAdminConcernedPerson extends Fragment implements VisitorAdaptor.OnVisitorListener {
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
+    List<String> personList;
     RecyclerView recyclerView;
     private Spinner spinner1;
     public FragmentAdminConcernedPerson() {
@@ -44,6 +47,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         spinner1 = v.findViewById(R.id.spinner1);
+        loadPersons();
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -112,7 +116,61 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         //adding our stringrequest to queue
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+    private void loadPersons() {
+        personList= new ArrayList<>();
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,IPString.loadPersonString ,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject personJson = array.getJSONObject(i);
+
+                                    personList.add(personJson.getString("name"));
+                                }
+                            populateSpinner();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(getActivity()).add(stringRequest);
+
+    }
+    private void populateSpinner() {
+        List<String> lables = new ArrayList<String>();
+
+
+        for (int i = 0; i < personList.size(); i++) {
+            lables.add(personList.get(i));
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner1.setAdapter(spinnerAdapter);
+    }
     @Override
     public void onVisitorClick(int position) {
         VisitorInfo visitorInfo= visitorInfoList.get(position);
