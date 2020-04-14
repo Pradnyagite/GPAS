@@ -163,6 +163,14 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

@@ -102,12 +102,14 @@ public class LoginActivity extends AppCompatActivity{
 //                    Log.e("result", result);
                     if (temp[0].equals("Authority")) {
                         Intent i = new Intent(LoginActivity.this, AdminHome.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         sp.edit().putBoolean("logged", true).apply();
                         sp.edit().putString("user", "Authority").apply();
                         sp.edit().putString("name", temp[1]).apply();
                     } else if (temp[0].equals("Security")) {
                         Intent i = new Intent(LoginActivity.this, SecurityPanel.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         sp.edit().putBoolean("logged", true).apply();
                         sp.edit().putString("user", "Security").apply();
@@ -115,6 +117,7 @@ public class LoginActivity extends AppCompatActivity{
 
                     } else if (temp[0].equals("Employee")) {
                         Intent i = new Intent(LoginActivity.this, ConcernedPerson.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         sp.edit().putBoolean("logged", true).apply();
                         sp.edit().putString("user", "Employee").apply();
