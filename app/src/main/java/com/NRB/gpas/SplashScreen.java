@@ -25,14 +25,18 @@ public class SplashScreen extends AppCompatActivity {
             if (sp.getBoolean("logged",false)){
                 if(sp.getString("user","").equals("Authority")){
                     Intent loginIntent = new Intent(SplashScreen.this, AdminHome.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                     startActivity(loginIntent);
                 }
                 else if(sp.getString("user","").equals("Employee")){
                     Intent loginIntent = new Intent(SplashScreen.this, ConcernedPerson.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(loginIntent);
                 }
                 else if(sp.getString("user","").equals("Security")){
                     Intent loginIntent = new Intent(SplashScreen.this, SecurityPanel.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(loginIntent);
                 }
             }
