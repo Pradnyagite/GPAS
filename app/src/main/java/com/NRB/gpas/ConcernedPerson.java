@@ -187,7 +187,6 @@ public class ConcernedPerson extends AppCompatActivity implements NavigationView
                     }
                     else{
                         Toast.makeText(getApplicationContext(),"Incorrect old password!!" , Toast.LENGTH_LONG).show();
-
                     }
                 } catch (JSONException e) {
                 }
