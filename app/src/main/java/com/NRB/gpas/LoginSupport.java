@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.content.Context;
 import android.app.AlertDialog;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -82,6 +83,7 @@ public class LoginSupport extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String[] temp = result.split("#");
+        Log.e("result", result);
         if (temp[0].equals("Authority")) {
             Intent i = new Intent(context, AdminHome.class);
             context.startActivity(i);

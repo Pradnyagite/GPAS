@@ -1,17 +1,26 @@
 package com.NRB.gpas;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.support.annotation.NonNull;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,6 +31,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +46,9 @@ public class LoginActivity extends AppCompatActivity{
 
     EditText username, password;
     Button login;
+    private String server_url_insert=IPString.loginString;
+    SharedPreferences sp;
+    AlertDialog alertDialog;
 //    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 //    private FirebaseAuth mAuth;
 //    private ProgressDialog mProLogin;
@@ -48,7 +65,9 @@ public class LoginActivity extends AppCompatActivity{
         username =  findViewById(R.id.login_et_un);
         password =findViewById(R.id.login_et_pass);
         login =  findViewById(R.id.btn_login_login);
-
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+        alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Login Status");
 //        mProLogin = new ProgressDialog(this);
 //
 //        mAuth = FirebaseAuth.getInstance();
@@ -57,13 +76,79 @@ public class LoginActivity extends AppCompatActivity{
 
 
     }
+
     public void login(View view) {
-        String sUsername = username.getText().toString();
-        String sPassword = password.getText().toString();
-        String type = "login";
-        LoginSupport backgroundWorker = new LoginSupport(this);
-        backgroundWorker.execute(type, sUsername, sPassword);
+        try {
+            submitData();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
+    private void submitData() throws UnsupportedEncodingException {
+        String sUsername = URLEncoder.encode(username.getText().toString(),"UTF8");
+        String sPassword = URLEncoder.encode(password.getText().toString(),"UTF8");
+
+        String url=server_url_insert+ "?username="+sUsername+"&password="+sPassword+"";
+//        Log.e("url", url);
+        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+//                    Log.e("fghf", "onResponse: " );
+                    JSONObject jsonObject=new JSONObject(response);
+                    String result=jsonObject.getString("message");
+//                    Log.e("fghf", result);
+                    String[] temp = result.split("#");
+//                    Log.e("result", result);
+                    if (temp[0].equals("Authority")) {
+                        Intent i = new Intent(LoginActivity.this, AdminHome.class);
+                        startActivity(i);
+                        sp.edit().putBoolean("logged", true).apply();
+                        sp.edit().putString("user", "Authority").apply();
+                        sp.edit().putString("name", temp[1]).apply();
+                    } else if (temp[0].equals("Security")) {
+                        Intent i = new Intent(LoginActivity.this, SecurityPanel.class);
+                        startActivity(i);
+                        sp.edit().putBoolean("logged", true).apply();
+                        sp.edit().putString("user", "Security").apply();
+                        sp.edit().putString("name", temp[1]).apply();
+
+                    } else if (temp[0].equals("Employee")) {
+                        Intent i = new Intent(LoginActivity.this, ConcernedPerson.class);
+                        startActivity(i);
+                        sp.edit().putBoolean("logged", true).apply();
+                        sp.edit().putString("user", "Employee").apply();
+                        sp.edit().putString("name", temp[1]).apply();
+                    } else {
+                        alertDialog.setMessage("Invalid User");
+                        alertDialog.show();
+                    }
+
+                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getActivity(),"e"+e.toString(),Toast.LENGTH_LONG).show();
+//                    Log.e("error", e.toString() );
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getActivity(),"err"+error.toString(),Toast.LENGTH_LONG).show();
+//                Log.e("error", error.toString() );
+            }
+        }
+        );
+        RequestQueue requestQueue= Volley.newRequestQueue(LoginActivity.this);
+        requestQueue.add(stringRequest);
+    }
+
+//    public void login(View view) {
+//        String sUsername = username.getText().toString();
+//        String sPassword = password.getText().toString();
+//        String type = "login";
+//        LoginSupport backgroundWorker = new LoginSupport(this);
+//        backgroundWorker.execute(type, sUsername, sPassword);
+//    }
 
 //    public void login(View view) {
 //        //Intent intent = new Intent(this, MainActivity.class);
