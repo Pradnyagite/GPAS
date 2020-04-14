@@ -67,7 +67,6 @@ String server_url_insert=IPString.UrlInsert;
         String sPassword= URLEncoder.encode(passwordET.getText().toString(),"UTF8");
 
         String url=server_url_insert+ "?name="+sName+"&department="+sDepartment+"&designation="+sDesignation+"&email="+sEmail+"&password="+sPassword+"";
-        Log.e("URL",url);
         StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -86,8 +85,7 @@ String server_url_insert=IPString.UrlInsert;
 
                 }
             }
-        },
-                new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(),"err"+error.toString(),Toast.LENGTH_LONG).show();

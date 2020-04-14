@@ -20,12 +20,24 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class SecurityPanel extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentAdminHome.OnFragmentInteractionListener,
@@ -40,6 +52,7 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
     private TextView toolbarTitle;
     private FirebaseUser user;
     private SharedPreferences sharedPreferences;
+    private String server_url_insert=IPString.UrlPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +115,6 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
         return false;
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -129,6 +139,7 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
 
                             sharedPreferences.edit().putBoolean("logged",false).apply();
                             sharedPreferences.edit().putString("user","").apply();
+                            sharedPreferences.edit().putString("name","").apply();
 
                             Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
@@ -160,35 +171,74 @@ public class SecurityPanel extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void applyTexts(String currentPassword, final String newPassword) {
+        try {
+            submitData(currentPassword,newPassword);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+    private void submitData(String s1,String s2) throws UnsupportedEncodingException {
+        String sOld= URLEncoder.encode(s1,"UTF8");
+        String sNew= URLEncoder.encode(s2,"UTF8");
+        String sName= URLEncoder.encode(sharedPreferences.getString("name",""),"UTF8");
 
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        final String email = user.getEmail();
-        AuthCredential credential = EmailAuthProvider.getCredential(email,currentPassword);
-
-        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String url=server_url_insert+ "?old="+sOld+"&new="+sNew+"&name="+sName+"";
+        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(SecurityPanel.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    if(jsonObject.getString("message").equals("success")) {
+                        Toast.makeText(getApplicationContext(),"Password changed successfully!!" , Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Incorrect old password!!" , Toast.LENGTH_LONG).show();
 
-                            }else {
-                                Toast.makeText(SecurityPanel.this, "Password successfully changed", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    });
-                }else {
-                    Toast.makeText(SecurityPanel.this, "Current password incorrect", Toast.LENGTH_SHORT).show();
-
+                    }
+                } catch (JSONException e) {
                 }
             }
-        });
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }
+        );
+        RequestQueue requestQueue= Volley.newRequestQueue(SecurityPanel.this);
+        requestQueue.add(stringRequest);
     }
+
+
+//    public void applyTexts(String currentPassword, final String newPassword) {
+//
+//
+//        user = FirebaseAuth.getInstance().getCurrentUser();
+//        final String email = user.getEmail();
+//        AuthCredential credential = EmailAuthProvider.getCredential(email,currentPassword);
+//
+//        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if(!task.isSuccessful()){
+//                                Toast.makeText(SecurityPanel.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+//
+//                            }else {
+//                                Toast.makeText(SecurityPanel.this, "Password successfully changed", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//                        }
+//                    });
+//                }else {
+//                    Toast.makeText(SecurityPanel.this, "Current password incorrect", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public void applyTexts() {

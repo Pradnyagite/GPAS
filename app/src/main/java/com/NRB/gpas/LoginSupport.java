@@ -87,11 +87,14 @@ public class LoginSupport extends AsyncTask<String, Void, String> {
             context.startActivity(i);
             sp.edit().putBoolean("logged", true).apply();
             sp.edit().putString("user", "Authority").apply();
+            sp.edit().putString("name", temp[1]).apply();
         } else if (temp[0].equals("Security")) {
             Intent i = new Intent(context, SecurityPanel.class);
             context.startActivity(i);
             sp.edit().putBoolean("logged", true).apply();
             sp.edit().putString("user", "Security").apply();
+            sp.edit().putString("name", temp[1]).apply();
+
         } else if (temp[0].equals("Employee")) {
             Intent i = new Intent(context, ConcernedPerson.class);
 //            i.putExtra("name",temp[1]);

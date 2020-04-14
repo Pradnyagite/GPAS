@@ -73,7 +73,7 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
                                 String date = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
 
                                 //adding the product to product list
-if(name.equals(visitor.getString("conernP"))&& visitor.getString("vD").equals(date))
+                                if(name.equals(visitor.getString("conernP"))&& visitor.getString("vD").equals(date))
                                 visitorInfoList.add(new VisitorInfo(
                                         visitor.getInt("id"),
                                         visitor.getString("name"),
