@@ -159,7 +159,9 @@ public class FragmentDownloadDate extends Fragment implements VisitorAdaptor.OnV
                                                 visitor.getString("leaveT"),
                                                 visitor.getString("conernP"),
                                                 visitor.getString("purpose"),
-                                                visitor.getString("status")
+                                                visitor.getString("status"),
+                                                visitor.getString("Start_Meet"),
+                                                visitor.getString("Close_Meet")
                                         ));
                                     }
                                 }catch (Exception e){}
@@ -232,7 +234,8 @@ public boolean validateDate(String s) throws Exception{
                 sheet.addCell(new Label(9, 0, "Concern Person", titleformat));
                 sheet.addCell(new Label(10, 0, "Purpose", titleformat));
                 sheet.addCell(new Label(11, 0, "Status", titleformat));
-
+                sheet.addCell(new Label(12, 0, "Campus Entry", titleformat));
+                sheet.addCell(new Label(13, 0, "Campus Exit", titleformat));
                 int nextRow = 1;
                 Iterator i = visitorInfoList.iterator();
                 while (i.hasNext()) {
@@ -249,7 +252,8 @@ public boolean validateDate(String s) throws Exception{
                     sheet.addCell(new Label(9, nextRow, res.getConcernPerson()));
                     sheet.addCell(new Label(10, nextRow, res.getPurpose()));
                     sheet.addCell(new Label(11, nextRow, res.getStatus()));
-
+                    sheet.addCell(new Label(12, nextRow, res.getStartMeet()));
+                    sheet.addCell(new Label(13, nextRow, res.getCloseMeet()));
                     nextRow++;
                 }
             } catch (RowsExceededException e) {

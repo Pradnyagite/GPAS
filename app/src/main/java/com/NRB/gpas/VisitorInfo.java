@@ -6,7 +6,6 @@ public class VisitorInfo {
     private String Address;
     private String Email;
     private String Contact;
-    private String Gender;
     private String Org;
     private String VDate;
     private String VTime;
@@ -15,13 +14,14 @@ public class VisitorInfo {
     private String Purpose;
     private String Status;
     private String Vehicle;
-    public VisitorInfo(int id, String name, String address, String email, String contact, String vehicle, String org, String VDate, String VTime, String LTime, String concernPerson, String purpose, String status) {
+    private String startMeet;
+    private String closeMeet;
+    public VisitorInfo(int id, String name, String address, String email, String contact, String vehicle, String org, String VDate, String VTime, String LTime, String concernPerson, String purpose, String status,String startMeet, String closeMeet) {
         this.id = id;
         Name = name;
         Address = address;
         Email = email;
         Contact = contact;
-//        Gender = gender;
         Org = org;
         this.VDate = VDate;
         this.VTime = VTime;
@@ -30,6 +30,8 @@ public class VisitorInfo {
         Purpose = purpose;
         Status = status;
         Vehicle=vehicle;
+        this.startMeet = startMeet;
+        this.closeMeet = closeMeet;
     }
 
     public String getVehicle() {
@@ -54,10 +56,6 @@ public class VisitorInfo {
 
     public String getContact() {
         return Contact;
-    }
-
-    public String getGender() {
-        return Gender;
     }
 
     public String getOrg() {
@@ -86,5 +84,13 @@ public class VisitorInfo {
 
     public String getStatus() {
         return Status;
+    }
+
+    public String getStartMeet() {
+        return startMeet;
+    }
+
+    public String getCloseMeet() {
+        return closeMeet;
     }
 }

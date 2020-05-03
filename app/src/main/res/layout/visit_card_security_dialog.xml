@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -13,16 +14,18 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="30sp"
+        android:fontFamily="sans-serif-condensed-light"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/cardinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
         android:paddingLeft="30dp"
         android:paddingBottom="5dp"
         android:text="TextView"
+
+        android:fontFamily="sans-serif-thin"
         android:textAlignment="textStart"
         android:textSize="15sp" />
     <LinearLayout
@@ -32,25 +35,25 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/accept"
+            android:id="@+id/startMeet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green"
+            android:fontFamily="sans-serif-light"
+            android:text="Campus Entry"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/endMeet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-light"
-            android:background="@drawable/bg_green"
-            android:text="Accept" />
-
-        <Button
-            android:id="@+id/reschedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
             android:background="@drawable/bg_blue"
-            android:fontFamily="sans-serif-light"
-            android:text="Reject"
-            android:textColor="#FFFFFF" />
+            android:text="Campus Exit" />
     </LinearLayout>
 </LinearLayout>

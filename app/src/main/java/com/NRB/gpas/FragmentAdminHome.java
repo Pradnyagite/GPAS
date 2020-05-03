@@ -77,7 +77,9 @@ public class FragmentAdminHome extends Fragment implements VisitorAdaptor.OnVisi
                                             visitor.getString("leaveT"),
                                             visitor.getString("conernP"),
                                             visitor.getString("purpose"),
-                                            visitor.getString("status")
+                                            visitor.getString("status"),
+                                            visitor.getString("Start_Meet"),
+                                            visitor.getString("Close_Meet")
                                     ));
 
                             }

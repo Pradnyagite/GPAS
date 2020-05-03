@@ -83,7 +83,9 @@ public class AllAppointmentsYesterday extends Fragment implements VisitorAdaptor
                                             visitor.getString("leaveT"),
                                             visitor.getString("conernP"),
                                             visitor.getString("purpose"),
-                                            visitor.getString("status")
+                                            visitor.getString("status"),
+                                            visitor.getString("Start_Meet"),
+                                            visitor.getString("Close_Meet")
                                     ));
                                 }
                             }

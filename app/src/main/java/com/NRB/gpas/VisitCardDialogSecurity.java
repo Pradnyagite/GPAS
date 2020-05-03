@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -26,22 +25,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class VisitorCardDialog extends AppCompatDialogFragment {
-
+public class VisitCardDialogSecurity extends AppCompatDialogFragment {
     private VisitorInfo visitorInfo;
-    private VisitorCardDialogListener listener;
+    private VisitCardDialogSecurity.VisitorCardDialogListener listener;
     private String server_url_insert=IPString.UrlButtonScripts;
     private ProgressDialog dialog;
 
-  public void getObject(VisitorInfo v){
-this.visitorInfo=v;
-  }
-
+    public void getObject(VisitorInfo v){
+        this.visitorInfo=v;
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -50,36 +46,32 @@ this.visitorInfo=v;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View view = inflater.inflate(R.layout.visitor_card_dialog, null);
+        final View view = inflater.inflate(R.layout.visit_card_security_dialog, null);
         TextView tv=view.findViewById(R.id.cardinfo);
-        Button accept= view.findViewById(R.id.accept);
-        Button reschedule= view.findViewById(R.id.reschedule);
+        Button startMeet= view.findViewById(R.id.startMeet);
+        Button endMeet= view.findViewById(R.id.endMeet);
         dialog = new ProgressDialog(getContext());
 
-
-        if(!visitorInfo.getStatus().equals("Pending")){
-            accept.setEnabled(false);
-            reschedule.setEnabled(false);
-
+        if(!visitorInfo.getStartMeet().equals("null")){
+            startMeet.setEnabled(false);
         }
-        accept.setOnClickListener(new View.OnClickListener() {
+        if(!visitorInfo.getCloseMeet().equals("null")){
+            endMeet.setEnabled(false);
+        }
+        startMeet.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                dialog.setTitle("Accepting Request");
+            public void onClick(View v)
+            {
+                dialog.setTitle("Updating");
                 dialog.setMessage("Please wait ...");
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-                SharedPreferences sp=getContext().getSharedPreferences("login",MODE_PRIVATE);
-                String name=sp.getString("name","");
-                String sName="";
-                try {
-                    sName= URLEncoder.encode(name,"UTF8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
 
-                String url=server_url_insert+ "?type=accept"+"&n="+visitorInfo.getId()+"&aname="+sName+"";
-                Log.e("sd", "onClick: "+url );
+                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                Log.e("sad", "onClick: "+currentTime );
+                String url=server_url_insert+ "?type=Start_Meet"+"&id="+visitorInfo.getId()+"&time="+currentTime+"";
+                Log.e("asda", "onClick: "+url );
                 StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -87,7 +79,7 @@ this.visitorInfo=v;
                             JSONObject jsonObject=new JSONObject(response);
                             if(jsonObject.getString("message").equals("success")) {
                                 dialog.dismiss();
-                                Toast.makeText(getActivity(),"Request accepted successfully!!" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(),"Updated successfully!!" , Toast.LENGTH_LONG).show();
                             }
                             else{
                                 dialog.dismiss();
@@ -96,6 +88,7 @@ this.visitorInfo=v;
                         } catch (JSONException e) {
                             e.printStackTrace();
                             dialog.dismiss();
+                            Log.e("ew", "onResponse: "+e.toString() );
                             Toast.makeText(getActivity(),"e"+e.toString(),Toast.LENGTH_LONG).show();
 
                         }
@@ -103,7 +96,9 @@ this.visitorInfo=v;
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        dialog.dismiss();
+//                        dialog.dismiss();
+                        Log.e("ewwe", "onResponse: "+error.toString() );
+
                         Toast.makeText(getActivity(),"err"+error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
@@ -126,26 +121,20 @@ this.visitorInfo=v;
                 });
                 RequestQueue requestQueue= Volley.newRequestQueue(getContext());
                 requestQueue.add(stringRequest);
-
 //                Toast.makeText(getContext(), "accept" +visitorInfo.getName(), Toast.LENGTH_SHORT).show();
             }
         });
-        reschedule.setOnClickListener(new View.OnClickListener() {
+        endMeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.setTitle("Rejecting Request");
+                dialog.setTitle("Updating");
                 dialog.setMessage("Please wait ...");
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-                SharedPreferences sp=getContext().getSharedPreferences("login",MODE_PRIVATE);
-                String name=sp.getString("name","");
-                String sName="";
-                try {
-                    sName= URLEncoder.encode(name,"UTF8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                String url=server_url_insert+ "?type=reject"+"&n="+visitorInfo.getId()+"&aname="+sName+"";
+
+                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                Log.e("", "onClick: "+currentTime );
+                String url=server_url_insert+ "?type=Close_Meet"+"&id="+visitorInfo.getId()+"&time="+currentTime+"";
                 StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -153,7 +142,7 @@ this.visitorInfo=v;
                             JSONObject jsonObject=new JSONObject(response);
                             if(jsonObject.getString("message").equals("success")) {
                                 dialog.dismiss();
-                                Toast.makeText(getActivity(),"Request rejected successfully!!" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(),"Updated successfully!!" , Toast.LENGTH_LONG).show();
                             }
                             else{
                                 dialog.dismiss();
@@ -170,7 +159,6 @@ this.visitorInfo=v;
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
-
                         Toast.makeText(getActivity(),"err"+error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
@@ -193,8 +181,6 @@ this.visitorInfo=v;
                 });
                 RequestQueue requestQueue= Volley.newRequestQueue(getContext());
                 requestQueue.add(stringRequest);
-
-
 //                Toast.makeText(getContext(), "reschedule" +visitorInfo.getName(), Toast.LENGTH_SHORT).show();
 
             }
@@ -215,13 +201,12 @@ this.visitorInfo=v;
 
         return builder.create();
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try {
-            listener = (VisitorCardDialog.VisitorCardDialogListener) context;
+            listener = (VisitCardDialogSecurity.VisitorCardDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     " must implement VisitorCardDialogListener");
@@ -231,7 +216,4 @@ this.visitorInfo=v;
     public interface VisitorCardDialogListener {
         void applyTexts();
     }
-
 }
-
-

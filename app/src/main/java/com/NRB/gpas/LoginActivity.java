@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity{
         String sPassword = URLEncoder.encode(password.getText().toString(),"UTF8");
 
         String url=server_url_insert+ "?username="+sUsername+"&password="+sPassword+"";
-//        Log.e("url", url);
+        Log.e("url", url);
         StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

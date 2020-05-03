@@ -4,18 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,12 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,12 +51,13 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         AllAppointmentsTomorrow.OnFragmentInteractionListener,
         VisitorCardDialog.VisitorCardDialogListener {
 
-    private String server_url_insert=IPString.UrlPass;
+    private String server_url_insert = IPString.UrlPass;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private TextView toolbarTitle;
-//    private FirebaseUser user;
+    //    private FirebaseUser user;
     private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +66,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         Toolbar toolbar = findViewById(R.id.admin_toolbar);
         setSupportActionBar(toolbar);
 
-        sharedPreferences=getSharedPreferences("login",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
 
         drawer = findViewById(R.id.admin_drawer_layout);
 
@@ -106,6 +99,13 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                 selectedFragment = new FragmentAdminHome();
                 break;
 
+            case R.id.drawer_admin_add_user:
+                selectedFragment = new FragmentAdminAddUser();
+                break;
+
+            case R.id.drawer_admin_view_user:
+                selectedFragment = new FragmentAdminViewUser();
+                break;
             //appointments submenu start
             case R.id.drawer_admin_all_appointments_person:
                 selectedFragment = new FragmentAdminConcernedPerson();
@@ -132,12 +132,8 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             //download submenu end
 
 
-
             case R.id.drawer_admin_track_user:
                 selectedFragment = new AdminMapActivity();
-                break;
-            case R.id.drawer_admin_add_user:
-                selectedFragment = new FragmentAdminAddUser();
                 break;
             case R.id.drawer_admin_about_us:
                 selectedFragment = new FragmentAboutUs();
@@ -180,7 +176,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if (item.getItemId()== R.id.admin_logout_btn) {
+        if (item.getItemId() == R.id.admin_logout_btn) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setMessage("Do you want to log out?")
@@ -190,9 +186,9 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                         public void onClick(DialogInterface dialog, int which) {
 //                            FirebaseAuth.getInstance().signOut();
 
-                            sharedPreferences.edit().putBoolean("logged",false).apply();
-                            sharedPreferences.edit().putString("user","").apply();
-                            sharedPreferences.edit().putString("name","").apply();
+                            sharedPreferences.edit().putBoolean("logged", false).apply();
+                            sharedPreferences.edit().putString("user", "").apply();
+                            sharedPreferences.edit().putString("name", "").apply();
 
                             Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                             startActivity(intent);
@@ -208,8 +204,8 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
                     });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        } else if (item.getItemId()== R.id.admin_change_pass_btn) {
-            ChangePasswordDialog changePasswordDialog =  new ChangePasswordDialog();
+        } else if (item.getItemId() == R.id.admin_change_pass_btn) {
+            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
             changePasswordDialog.show(getSupportFragmentManager(), "Change Password Dialog");
         }
 
@@ -225,27 +221,27 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void applyTexts(String currentPassword, final String newPassword) {
         try {
-            submitData(currentPassword,newPassword);
+            submitData(currentPassword, newPassword);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-    private void submitData(String s1,String s2) throws UnsupportedEncodingException {
-        String sOld= URLEncoder.encode(s1,"UTF8");
-        String sNew= URLEncoder.encode(s2,"UTF8");
-        String sName= URLEncoder.encode(sharedPreferences.getString("name",""),"UTF8");
 
-        String url=server_url_insert+ "?old="+sOld+"&new="+sNew+"&name="+sName+"";
-        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+    private void submitData(String s1, String s2) throws UnsupportedEncodingException {
+        String sOld = URLEncoder.encode(s1, "UTF8");
+        String sNew = URLEncoder.encode(s2, "UTF8");
+        String sName = URLEncoder.encode(sharedPreferences.getString("name", ""), "UTF8");
+
+        String url = server_url_insert + "?old=" + sOld + "&new=" + sNew + "&name=" + sName + "";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    if(jsonObject.getString("message").equals("success")) {
-                        Toast.makeText(getApplicationContext(),"Password changed successfully!!" , Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Incorrect old password!!" , Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("message").equals("success")) {
+                        Toast.makeText(getApplicationContext(), "Password changed successfully!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Incorrect old password!!", Toast.LENGTH_LONG).show();
 
                     }
                 } catch (JSONException e) {
@@ -262,7 +258,7 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             }
         }
         );
-        RequestQueue requestQueue= Volley.newRequestQueue(AdminHome.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(AdminHome.this);
         requestQueue.add(stringRequest);
     }
 

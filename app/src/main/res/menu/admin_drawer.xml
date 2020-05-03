@@ -13,10 +13,17 @@
             android:id="@+id/drawer_admin_track_user"
             android:title="Track user" />
 
-        <item
-            android:id="@+id/drawer_admin_add_user"
-            android:title="Add user" />
+        <item android:title="Manage Users">
 
+            <menu>
+                <item
+                    android:id="@+id/drawer_admin_add_user"
+                    android:title="     Add user" />
+                <item
+                    android:id="@+id/drawer_admin_view_user"
+                    android:title="     View user" />
+            </menu>
+        </item>
         <item android:title="Appointments">
 
             <menu>

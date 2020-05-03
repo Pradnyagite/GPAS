@@ -77,7 +77,9 @@ public class FragmentSecurityHome extends Fragment implements VisitorAdaptor.OnV
                                             visitor.getString("leaveT"),
                                             visitor.getString("conernP"),
                                             visitor.getString("purpose"),
-                                            visitor.getString("status")
+                                            visitor.getString("status"),
+                                            visitor.getString("Start_Meet"),
+                                            visitor.getString("Close_Meet")
                                     ));
                                 }
                             }
