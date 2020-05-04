@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="Visitor Name"
+            android:fontFamily="sans-serif-medium"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#000000" />
+            android:textColor="#FFF" />
 
         <TextView
             android:id="@+id/textViewShortDesc"
@@ -31,6 +32,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="purpose"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#ffffff"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
         <TextView
@@ -41,11 +44,12 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimary"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
             android:text="Concern Person"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-condensed"
+            />
 
         <TextView
             android:id="@+id/textViewPrice"
@@ -55,8 +59,10 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="Date of the meeting"
+            android:textColor="#ffffff"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-condensed-medium"
+            />
 
     </RelativeLayout>
 

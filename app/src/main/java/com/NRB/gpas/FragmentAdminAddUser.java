@@ -30,7 +30,7 @@ import java.net.URLEncoder;
 public class FragmentAdminAddUser extends Fragment {
 EditText nameET,departmentET,emailET,passwordET;
 Spinner designationSP;
-Button addUser;
+Button addUser, userReset;
 String server_url_insert=IPString.UrlInsert;
     public FragmentAdminAddUser() {
         // Required empty public constructor
@@ -47,6 +47,18 @@ String server_url_insert=IPString.UrlInsert;
         passwordET=v.findViewById(R.id.password);
         designationSP=v.findViewById(R.id.designation);
         addUser=v.findViewById(R.id.AddUser);
+        userReset = v.findViewById(R.id.resetUser);
+        userReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameET.setText("");
+                departmentET.setText("");
+                emailET.setText("");
+                passwordET.setText("");
+                designationSP.setSelection(0);
+
+            }
+        });
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

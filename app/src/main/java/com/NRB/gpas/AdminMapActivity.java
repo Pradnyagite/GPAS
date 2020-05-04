@@ -28,10 +28,8 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -131,14 +129,14 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     //List<UserLocation> userLocations = (List<UserLocation>)dataSnapshot.
                     double locationLat = 0;
                     double locationLng = 0;
-
+                    Log.e("ggg", "onDataChange: "+dataSnapshot );
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
                         if(child.exists())
                         {
 
                             locationLat = (double)child.child("lat").getValue();
-                            Log.e("lat", "onDataChange: "+ locationLat);
+//                            Log.e("lat", "onDataChange: "+ a);
                             locationLng = (double)child.child("lng").getValue();
                             LatLng userLatLng = new LatLng(locationLat, locationLng);
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
