@@ -70,10 +70,11 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
 
                                 //getting product object from json array
                                 JSONObject visitor = array.getJSONObject(i);
-                                String date = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
+//                                String date = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date());
 
                                 //adding the product to product list
-                                if(name.equals(visitor.getString("conernP"))&& visitor.getString("vD").equals(date))
+//                                if(name.equals(visitor.getString("conernP"))&& visitor.getString("vD").equals(date))
+                                if(name.equals(visitor.getString("conernP")))
                                 visitorInfoList.add(new VisitorInfo(
                                         visitor.getInt("id"),
                                         visitor.getString("name"),

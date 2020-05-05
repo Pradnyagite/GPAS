@@ -1,5 +1,6 @@
 package com.NRB.gpas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,6 +34,9 @@ EditText nameET,departmentET,emailET,passwordET;
 Spinner designationSP;
 Button addUser, userReset;
 String server_url_insert=IPString.UrlInsert;
+    private ProgressDialog dialog;
+
+
     public FragmentAdminAddUser() {
         // Required empty public constructor
     }
@@ -47,6 +52,8 @@ String server_url_insert=IPString.UrlInsert;
         passwordET=v.findViewById(R.id.password);
         designationSP=v.findViewById(R.id.designation);
         addUser=v.findViewById(R.id.AddUser);
+        dialog = new ProgressDialog(getContext());
+
         userReset = v.findViewById(R.id.resetUser);
         userReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +79,11 @@ String server_url_insert=IPString.UrlInsert;
         return v;
     }
     private void submitData() throws UnsupportedEncodingException {
+        dialog.setTitle("Adding User");
+        dialog.setMessage("Please wait ...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
         String sName= URLEncoder.encode(nameET.getText().toString(),"UTF8");
         String sDepartment= URLEncoder.encode(departmentET.getText().toString(),"UTF8");
         String sDesignation= URLEncoder.encode(String.valueOf(designationSP.getSelectedItem()),"UTF8");
@@ -85,32 +97,67 @@ String server_url_insert=IPString.UrlInsert;
                 try {
                     JSONObject jsonObject=new JSONObject(response);
                     if(jsonObject.getString("message").equals("success")) {
-                        Toast.makeText(getActivity(),"User added successfully!!" , Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                        nameET.setText("");
+                        emailET.setText("");
+                        passwordET.setText("");
+                        departmentET.setText("");
+                        designationSP.setSelection(0);
+                        Toast.makeText(getActivity(), "User added successfully!!", Toast.LENGTH_LONG).show();
+                        nameET.requestFocus();
+                    }
+                    else if(jsonObject.getString("message").equals("exist")){
+                        dialog.dismiss();
+                        nameET.setText("");
+                        emailET.setText("");
+                        passwordET.setText("");
+                        departmentET.setText("");
+                        designationSP.setSelection(0);
+                        Toast.makeText(getActivity(), "User already exist!!", Toast.LENGTH_LONG).show();
+                        nameET.requestFocus();
                     }
                     else{
+                        dialog.dismiss();
+
                         Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(),"e"+e.toString(),Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+
+                    Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();
 
                 }
             }
         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(),"err"+error.toString(),Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+
+                        Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();
                     }
                 }
         );
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
         RequestQueue requestQueue= Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-        nameET.setText("");
-        emailET.setText("");
-        passwordET.setText("");
-        departmentET.setText("");
-        designationSP.setSelection(0);
+
     }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

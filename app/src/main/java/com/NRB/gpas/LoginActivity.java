@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity{
     private String server_url_insert=IPString.loginString;
     SharedPreferences sp;
     AlertDialog alertDialog;
+    private ProgressDialog dialog;
+
 //    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 //    private FirebaseAuth mAuth;
 //    private ProgressDialog mProLogin;
@@ -68,6 +70,8 @@ public class LoginActivity extends AppCompatActivity{
         sp = getSharedPreferences("login", MODE_PRIVATE);
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Login Status");
+        dialog= new ProgressDialog(this);
+
 //        mProLogin = new ProgressDialog(this);
 //
 //        mAuth = FirebaseAuth.getInstance();
@@ -88,6 +92,11 @@ public class LoginActivity extends AppCompatActivity{
         String sUsername = URLEncoder.encode(username.getText().toString(),"UTF8");
         String sPassword = URLEncoder.encode(password.getText().toString(),"UTF8");
 
+        dialog.setTitle("Logging you in");
+        dialog.setMessage("Please wait ...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
         String url=server_url_insert+ "?username="+sUsername+"&password="+sPassword+"";
         Log.e("url", url);
         StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -101,6 +110,7 @@ public class LoginActivity extends AppCompatActivity{
                     String[] temp = result.split("#");
 //                    Log.e("result", result);
                     if (temp[0].equals("Authority")) {
+                        dialog.dismiss();
                         Intent i = new Intent(LoginActivity.this, AdminHome.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
@@ -108,6 +118,7 @@ public class LoginActivity extends AppCompatActivity{
                         sp.edit().putString("user", "Authority").apply();
                         sp.edit().putString("name", temp[1]).apply();
                     } else if (temp[0].equals("Security")) {
+                        dialog.dismiss();
                         Intent i = new Intent(LoginActivity.this, SecurityPanel.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
@@ -116,6 +127,7 @@ public class LoginActivity extends AppCompatActivity{
                         sp.edit().putString("name", temp[1]).apply();
 
                     } else if (temp[0].equals("Employee")) {
+                        dialog.dismiss();
                         Intent i = new Intent(LoginActivity.this, ConcernedPerson.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
@@ -123,6 +135,7 @@ public class LoginActivity extends AppCompatActivity{
                         sp.edit().putString("user", "Employee").apply();
                         sp.edit().putString("name", temp[1]).apply();
                     } else {
+                        dialog.dismiss();
                         alertDialog.setMessage("Invalid User");
                         alertDialog.show();
                     }

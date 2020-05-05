@@ -1,17 +1,24 @@
 package com.NRB.gpas;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,8 +36,11 @@ public class FragmentAdminViewUser extends Fragment implements UserAdapter.OnUse
     private OnFragmentInteractionListener mListener;
 
     private static final String URL_VISITORS = IPString.UrlUsers;
+    private String server_url_insert=IPString.UrlButtonScripts;
+
     List<UserDetails> userInfoList;
     RecyclerView recyclerView;
+    private ProgressDialog mdialog;
 
     TextView emptyView;
     public FragmentAdminViewUser() {
@@ -45,6 +55,7 @@ public class FragmentAdminViewUser extends Fragment implements UserAdapter.OnUse
         recyclerView = v.findViewById(R.id.recyclerViewUser);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mdialog = new ProgressDialog(getContext());
 
         emptyView=v.findViewById(R.id.list_empty);
         userInfoList = new ArrayList<>();
@@ -108,6 +119,81 @@ public class FragmentAdminViewUser extends Fragment implements UserAdapter.OnUse
     @Override
     public void onUserClick(int position) {
 
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        final UserDetails userDetails = userInfoList.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setMessage("Are you sure you want to delete user - "+userDetails.getName()+"?")
+                .setCancelable(false)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mdialog.setTitle("Deleting User");
+                        mdialog.setMessage("Please wait ...");
+                        mdialog.setCanceledOnTouchOutside(false);
+                        mdialog.show();
+
+                        String url=server_url_insert+ "?type=deleteUser"+"&id="+userDetails.getId()+"";
+                        Log.e("abd", "onClick: "+url);
+                        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject=new JSONObject(response);
+                                    if(jsonObject.getString("message").equals("success")) {
+                                        mdialog.dismiss();
+                                        userInfoList = new ArrayList<>();
+                                        loadUsers();
+                                        Toast.makeText(getActivity(),"User deleted" , Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        mdialog.dismiss();
+                                        Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    mdialog.dismiss();
+                                    Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                mdialog.dismiss();
+                                Toast.makeText(getActivity(),"Something went wrong!!" , Toast.LENGTH_LONG).show();                            }
+                        }
+                        );
+                        stringRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 50000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 50000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
+                        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+                        requestQueue.add(stringRequest);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     public interface OnFragmentInteractionListener {
