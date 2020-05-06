@@ -73,7 +73,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
                     mProLogin.dismiss();
-                    Toast.makeText(UserLoginActivity.this, "Verification completed", Toast.LENGTH_SHORT).show();
+
                     auth.signInWithCredential(phoneAuthCredential)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
