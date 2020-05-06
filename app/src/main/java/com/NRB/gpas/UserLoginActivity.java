@@ -29,6 +29,7 @@ public class UserLoginActivity extends AppCompatActivity {
     private String contact, otp, verificationCode;
     private TextInputLayout contactTil, otpTil;
     private ProgressDialog mProLogin;
+    final Intent intent = new Intent(this, UserHome.class);
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     FirebaseAuth auth;
 
@@ -60,7 +61,8 @@ public class UserLoginActivity extends AppCompatActivity {
         } else if (contact.length() != 10) {
             Toast.makeText(this, "Invalid contact number", Toast.LENGTH_SHORT).show();
         } else {
-            mProLogin.setTitle("Sending OTP");
+            mProLogin.setTitle("Signing you in");
+
 
             mProLogin.setCanceledOnTouchOutside(false);
 
@@ -70,12 +72,28 @@ public class UserLoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                    mProLogin.dismiss();
                     Toast.makeText(UserLoginActivity.this, "Verification completed", Toast.LENGTH_SHORT).show();
-
+                    auth.signInWithCredential(phoneAuthCredential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        mProLogin.dismiss();
+                                        startActivity(intent);
+                                        otpEt.setText("");
+                                        contactEt.setText("");
+                                        Toast.makeText(UserLoginActivity.this, "Signed in", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(UserLoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
 
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
+                    mProLogin.dismiss();
                     Toast.makeText(UserLoginActivity.this, "Verification failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -104,7 +122,6 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        final Intent intent = new Intent(this, UserHome.class);
 
 
         otp = otpEt.getText().toString();
@@ -114,7 +131,7 @@ public class UserLoginActivity extends AppCompatActivity {
             return;
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
-            mProLogin.setTitle("Logging in");
+            mProLogin.setTitle("Verifying your OTP");
 
             mProLogin.setCanceledOnTouchOutside(false);
 
@@ -130,6 +147,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 otpEt.setText("");
                                 contactEt.setText("");
+                                Toast.makeText(UserLoginActivity.this, "Signed in", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(UserLoginActivity.this, "Incorrect OTP", Toast.LENGTH_SHORT).show();
                             }
