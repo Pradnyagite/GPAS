@@ -29,7 +29,7 @@ public class UserLoginActivity extends AppCompatActivity {
     private String contact, otp, verificationCode;
     private TextInputLayout contactTil, otpTil;
     private ProgressDialog mProLogin;
-    final Intent intent = new Intent(this, UserHome.class);
+    private Intent intent;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     FirebaseAuth auth;
 
@@ -37,7 +37,7 @@ public class UserLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-
+        intent = new Intent(this, UserHome.class);
         auth = FirebaseAuth.getInstance();
         mProLogin = new ProgressDialog(this);
         contactEt = findViewById(R.id.user_login_contact);

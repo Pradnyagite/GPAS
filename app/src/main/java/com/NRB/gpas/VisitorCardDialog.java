@@ -146,6 +146,7 @@ this.visitorInfo=v;
                     e.printStackTrace();
                 }
                 String url=server_url_insert+ "?type=reject"+"&n="+visitorInfo.getId()+"&aname="+sName+"";
+                Log.e("onClick: ", "onClick: "+url );
                 StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
