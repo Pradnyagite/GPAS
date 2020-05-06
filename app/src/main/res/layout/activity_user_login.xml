@@ -111,6 +111,7 @@
                 android:layout_marginEnd="135sp"
                 android:layout_marginBottom="133sp"
                 android:clickable="true"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:onClick="gotoAdmin"
                 android:text="Not a user?"

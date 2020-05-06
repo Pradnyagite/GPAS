@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:entries="@array/Status"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_list"/>
+        android:fontFamily="sans-serif-light"/>
 
 
         <android.support.v7.widget.RecyclerView
