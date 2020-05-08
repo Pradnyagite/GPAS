@@ -129,6 +129,7 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                     //List<UserLocation> userLocations = (List<UserLocation>)dataSnapshot.
                     double locationLat = 0;
                     double locationLng = 0;
+                    String name1 = "";
                     Log.e("ggg", "onDataChange: "+dataSnapshot );
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
@@ -138,10 +139,11 @@ public class AdminMapActivity extends Fragment implements OnMapReadyCallback,
                             locationLat = (double)child.child("lat").getValue();
 //                            Log.e("lat", "onDataChange: "+ a);
                             locationLng = (double)child.child("lng").getValue();
+                            name1 = (String)child.child("userName").getValue();
                             LatLng userLatLng = new LatLng(locationLat, locationLng);
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLng));
                             mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(19));
-                            mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title("your user"));
+                            mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(userLatLng).title(name1));
                             mUserMarker.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                         }
                     }

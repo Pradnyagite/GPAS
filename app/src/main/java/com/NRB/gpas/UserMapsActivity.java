@@ -2,6 +2,7 @@ package com.NRB.gpas;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -152,8 +153,8 @@ public class UserMapsActivity extends Fragment implements OnMapReadyCallback,
 //        String userID="sdjfhsdhgsuyegfsdjfsjssy";
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ActiveUsers").child(userID);
 
-
-        databaseReference.setValue(new UserLocation(location.getLatitude(),location.getLongitude()));
+        Intent intent = getActivity().getIntent();
+        databaseReference.setValue(new UserLocation(location.getLatitude(),location.getLongitude(),intent.getStringExtra("username1")));
         //GeoFire geoFire = new GeoFire(databaseReference);
         //geoFire.setLocation("Person",new GeoLocation(location.getLatitude(),location.getLongitude()));
     }

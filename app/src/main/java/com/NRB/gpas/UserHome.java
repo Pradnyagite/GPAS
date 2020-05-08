@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentUserHome.OnFragmentInteractionListener,
@@ -30,6 +32,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private TextView toolbarTitle;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

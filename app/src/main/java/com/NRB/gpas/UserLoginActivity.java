@@ -19,15 +19,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
 public class UserLoginActivity extends AppCompatActivity {
 
-    private EditText contactEt, otpEt;
+    private EditText nameEt, contactEt, otpEt;
     private Button sendOtp, userlogin;
-    private String contact, otp, verificationCode;
-    private TextInputLayout contactTil, otpTil;
+    private String name, contact, otp, verificationCode;
+    private TextInputLayout contactTil, otpTil, nameTil;
     private ProgressDialog mProLogin;
     private Intent intent;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
@@ -42,7 +44,8 @@ public class UserLoginActivity extends AppCompatActivity {
         mProLogin = new ProgressDialog(this);
         contactEt = findViewById(R.id.user_login_contact);
         otpEt = findViewById(R.id.user_login_otp);
-
+        nameEt = findViewById(R.id.user_name);
+        nameTil = findViewById(R.id.name_til);
         contactTil = findViewById(R.id.contact_til);
         otpTil = findViewById(R.id.otp_til);
 
@@ -53,9 +56,13 @@ public class UserLoginActivity extends AppCompatActivity {
 
     public void sendOtp(View view) {
 
+        name = nameEt.getText().toString();
         contact = contactEt.getText().toString();
 
-        if (contact.isEmpty()) {
+
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Enter your name", Toast.LENGTH_SHORT).show();
+        } else if (contact.isEmpty()) {
             Toast.makeText(this, "Enter your contact number", Toast.LENGTH_SHORT).show();
 
         } else if (contact.length() != 10) {
@@ -80,6 +87,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         mProLogin.dismiss();
+                                        intent.putExtra("username1", name);
                                         startActivity(intent);
                                         otpEt.setText("");
                                         contactEt.setText("");
@@ -105,6 +113,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     userlogin.setVisibility(View.VISIBLE);
                     sendOtp.setVisibility(View.INVISIBLE);
                     contactTil.setVisibility(View.INVISIBLE);
+                    nameTil.setVisibility(View.INVISIBLE);
                     otpTil.setVisibility(View.VISIBLE);
                     mProLogin.dismiss();
                 }
@@ -123,11 +132,11 @@ public class UserLoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
-
+        name = nameEt.getText().toString();
         otp = otpEt.getText().toString();
+
         if (TextUtils.isEmpty(otp)) {
             Toast.makeText(getApplicationContext(), "Enter OTP", Toast.LENGTH_SHORT).show();
-
             return;
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
@@ -137,13 +146,13 @@ public class UserLoginActivity extends AppCompatActivity {
 
             mProLogin.show();
 
-
             auth.signInWithCredential(credential)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 mProLogin.dismiss();
+                                intent.putExtra("username1", name);
                                 startActivity(intent);
                                 otpEt.setText("");
                                 contactEt.setText("");
