@@ -34,6 +34,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
     List<String> personList;
     RecyclerView recyclerView;
     private Spinner spinner1;
+    TextView emptyView;
     public FragmentAdminConcernedPerson() {
         // Required empty public constructor
     }
@@ -47,6 +48,7 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         spinner1 = v.findViewById(R.id.spinner1);
+        emptyView=v.findViewById(R.id.list_empty);
         loadPersons();
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -103,8 +105,15 @@ public class FragmentAdminConcernedPerson extends Fragment implements VisitorAda
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentAdminConcernedPerson.this);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

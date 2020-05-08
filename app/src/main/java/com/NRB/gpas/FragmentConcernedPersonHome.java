@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,6 +37,7 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
     String name;
+    TextView emptyView;
     public FragmentConcernedPersonHome() {
         // Required empty public constructor
     }
@@ -47,6 +49,7 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
         recyclerView = v.findViewById(R.id.recyclerViewConcern);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        emptyView=v.findViewById(R.id.list_empty);
         visitorInfoList = new ArrayList<>();
 //        Intent i=getActivity().getIntent();
 //        name=i.getExtras().getString("name");
@@ -96,8 +99,15 @@ public class FragmentConcernedPersonHome extends Fragment implements VisitorAdap
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentConcernedPersonHome.this);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

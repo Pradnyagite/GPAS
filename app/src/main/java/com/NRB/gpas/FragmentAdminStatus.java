@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,6 +31,9 @@ public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVi
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
     private Spinner spinner1;
+    TextView emptyView;
+
+
     public FragmentAdminStatus() {
         // Required empty public constructor
     }
@@ -43,6 +47,8 @@ public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         spinner1 = v.findViewById(R.id.spinner);
+        emptyView=v.findViewById(R.id.list_empty);
+
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -97,7 +103,15 @@ public class FragmentAdminStatus extends Fragment implements VisitorAdaptor.OnVi
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentAdminStatus.this);
-                            recyclerView.setAdapter(adapter);
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

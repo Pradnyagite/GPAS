@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -52,7 +53,7 @@ public class FragmentDownloadPerson extends Fragment implements VisitorAdaptor.O
     RecyclerView recyclerView;
     private Spinner spinner1;
     Button b;
-
+    TextView emptyView;
     private OnFragmentInteractionListener mListener;
 
     public FragmentDownloadPerson() {
@@ -76,6 +77,7 @@ public class FragmentDownloadPerson extends Fragment implements VisitorAdaptor.O
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         spinner1 = v.findViewById(R.id.spinner1);
+        emptyView=v.findViewById(R.id.list_empty);
         loadPersons();
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -132,8 +134,15 @@ public class FragmentDownloadPerson extends Fragment implements VisitorAdaptor.O
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentDownloadPerson.this);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

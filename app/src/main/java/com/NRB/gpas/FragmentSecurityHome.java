@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,6 +31,8 @@ public class FragmentSecurityHome extends Fragment implements VisitorAdaptor.OnV
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
+    TextView emptyView;
+
     public FragmentSecurityHome() {
         // Required empty public constructor
     }
@@ -41,6 +44,7 @@ public class FragmentSecurityHome extends Fragment implements VisitorAdaptor.OnV
         recyclerView = v.findViewById(R.id.recyclerViewSecurity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        emptyView=v.findViewById(R.id.list_empty);
         loadVisitors();
         return v;
     }
@@ -85,8 +89,15 @@ public class FragmentSecurityHome extends Fragment implements VisitorAdaptor.OnV
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList, FragmentSecurityHome.this);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

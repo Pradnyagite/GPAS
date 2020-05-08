@@ -57,6 +57,7 @@ public class FragmentDownloadDate extends Fragment implements VisitorAdaptor.OnV
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
+    TextView emptyView;
     public FragmentDownloadDate() {
         // Required empty public constructor
     }
@@ -71,6 +72,7 @@ public class FragmentDownloadDate extends Fragment implements VisitorAdaptor.OnV
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         dateStart=v.findViewById(R.id.dateStart);
+        emptyView=v.findViewById(R.id.list_empty);
         dateStart.setInputType(InputType.TYPE_NULL);
         dateStart.setOnClickListener(new View.OnClickListener() {
             @Override

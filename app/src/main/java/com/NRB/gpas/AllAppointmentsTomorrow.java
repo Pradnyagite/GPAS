@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,7 +34,7 @@ public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.
     private static final String URL_VISITORS = IPString.ip;
     List<VisitorInfo> visitorInfoList;
     RecyclerView recyclerView;
-
+    TextView emptyView;
     public AllAppointmentsTomorrow() {
         // Required empty public constructor
     }
@@ -48,6 +49,7 @@ public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         visitorInfoList = new ArrayList<>();
+        emptyView=v.findViewById(R.id.list_empty);
         loadVisitors();
     return v;
     }
@@ -95,8 +97,15 @@ public class AllAppointmentsTomorrow extends Fragment implements VisitorAdaptor.
                             }
                             //creating adapter object and setting it to recyclerview
                             VisitorAdaptor adapter = new VisitorAdaptor(visitorInfoList,AllAppointmentsTomorrow.this);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
+                            if(adapter.getItemCount() == 0) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                            else {
+                                emptyView.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(adapter);
+                            }                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
